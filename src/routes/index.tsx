@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { registerPWA } from "@/lib/pwa-register";
 import traceLogo from "@/assets/trace-logo.png";
-import traceWordmark from "@/assets/trace-wordmark.png";
+import { LangSwitcher, useI18n } from "@/lib/i18n";
 
 type DeferredInstallPrompt = Event & {
   prompt: () => Promise<void>;
@@ -37,6 +37,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { t } = useI18n();
   const [installEvent, setInstallEvent] = useState<DeferredInstallPrompt | null>(null);
   const [installed, setInstalled] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
@@ -46,6 +47,7 @@ function Index() {
   >("other");
   const [showHelp, setShowHelp] = useState(false);
   const [showContact, setShowContact] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   useEffect(() => {
@@ -99,10 +101,10 @@ function Index() {
   const showInstallButton = !installed && !isStandalone;
 
   const installLabel = installEvent
-    ? "↓ Baixar App"
+    ? t("install.download")
     : platform === "ios"
-      ? "↓ Instalar no iPhone"
-      : "↓ Como instalar";
+      ? t("install.iphone")
+      : t("install.howto");
 
   const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -130,20 +132,60 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-midnight-navy text-soft-white font-sans">
-      <header className="flex items-center justify-between px-6 py-5 md:px-12">
-        <a href="#top" className="flex items-center gap-2">
-          <img src={traceWordmark} alt="Trace" className="h-9 w-auto md:h-11" />
+      <header className="relative flex items-center justify-between px-6 py-5 md:px-12">
+        <a href="#top" className="flex items-center" aria-label="Trace">
+          <img src="/favicon.png" alt="Trace" className="h-10 w-10 md:h-12 md:w-12" />
         </a>
         <nav className="hidden items-center gap-8 text-xs uppercase tracking-widest text-soft-white/70 md:flex">
-          <a href="#sobre" className="transition-colors hover:text-trace-orange">Sobre nós</a>
-          <a href="#experiencias" className="transition-colors hover:text-trace-orange">Experiências</a>
+          <a href="#sobre" className="transition-colors hover:text-trace-orange">{t("nav.about")}</a>
+          <a href="#experiencias" className="transition-colors hover:text-trace-orange">{t("nav.experiences")}</a>
           <button
             onClick={() => setShowContact(true)}
             className="transition-colors hover:text-trace-orange"
           >
-            Contato
+            {t("nav.contact")}
           </button>
+          <LangSwitcher />
         </nav>
+        <div className="flex items-center gap-2 md:hidden">
+          <LangSwitcher />
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Menu"
+            className="flex h-10 w-10 items-center justify-center rounded-md border border-soft-white/15 bg-graphite/80 text-soft-white"
+          >
+            {menuOpen ? "✕" : "☰"}
+          </button>
+        </div>
+        {menuOpen && (
+          <div className="absolute left-0 right-0 top-full z-40 mx-6 mt-2 rounded-lg border border-soft-white/15 bg-graphite p-4 shadow-2xl md:hidden">
+            <nav className="flex flex-col gap-3 text-sm uppercase tracking-widest text-soft-white/80">
+              <a
+                href="#sobre"
+                onClick={() => setMenuOpen(false)}
+                className="rounded px-2 py-2 transition-colors hover:bg-midnight-navy hover:text-trace-orange"
+              >
+                {t("nav.about")}
+              </a>
+              <a
+                href="#experiencias"
+                onClick={() => setMenuOpen(false)}
+                className="rounded px-2 py-2 transition-colors hover:bg-midnight-navy hover:text-trace-orange"
+              >
+                {t("nav.experiences")}
+              </a>
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  setShowContact(true);
+                }}
+                className="rounded px-2 py-2 text-left transition-colors hover:bg-midnight-navy hover:text-trace-orange"
+              >
+                {t("nav.contact")}
+              </button>
+            </nav>
+          </div>
+        )}
       </header>
 
       <main id="top" className="mx-auto flex max-w-5xl flex-col items-center px-6 pb-20 pt-6 text-center md:pt-12">
@@ -154,18 +196,16 @@ function Index() {
         />
 
         <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
-          Histórias onde
+          {t("hero.title.1")}
           <br />
-          elas <span className="text-trace-orange">aconteceram.</span>
+          {t("hero.title.2")} <span className="text-trace-orange">{t("hero.title.3")}</span>
         </h1>
         <p className="mt-4 font-display text-lg text-trace-blue md:text-xl">
-          A cidade como interface.
+          {t("hero.tagline")}
         </p>
 
         <p className="mt-8 max-w-2xl text-base leading-relaxed text-fog-gray md:text-lg">
-          Trace é uma plataforma de <strong className="text-soft-white">narrativas interativas geolocalizadas</strong>.
-          Caminhe pela cidade, chegue aos lugares certos e deixe que a história se desenrole
-          ao seu redor — através de áudios, imagens e missões reais.
+          {t("hero.desc")}
         </p>
 
         <div className="mt-10 flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center">
@@ -173,7 +213,7 @@ function Index() {
             to="/map"
             className="group inline-flex w-full items-center justify-center gap-2 rounded-md bg-trace-orange px-8 py-4 font-display text-sm font-semibold uppercase tracking-[0.15em] text-white shadow-[0_8px_24px_-8px_rgba(255,107,0,0.6)] transition hover:bg-trace-orange/90 active:translate-y-[1px] sm:w-auto"
           >
-            Começar experiência <span className="transition-transform group-hover:translate-x-1">→</span>
+            {t("hero.cta")} <span className="transition-transform group-hover:translate-x-1">→</span>
           </Link>
           {showInstallButton && (
             <button
@@ -185,13 +225,13 @@ function Index() {
           )}
           {(installed || isStandalone) && (
             <span className="font-display text-xs uppercase tracking-widest text-urban-cyan">
-              ✓ App instalado
+              {t("install.installed")}
             </span>
           )}
         </div>
 
         <p className="mt-4 text-[10px] uppercase tracking-[0.25em] text-silver-gray/70">
-          Sem login · Funciona no navegador ou como app
+          {t("hero.note")}
         </p>
 
         {showHelp && (
