@@ -151,7 +151,7 @@
         @keyframes pulse-marker { 0% { box-shadow: 0 0 0 2px var(--arquivo-black), 0 0 0 0 rgba(193, 18, 31, 0.7); } 70% { box-shadow: 0 0 0 2px var(--arquivo-black), 0 0 0 15px rgba(193, 18, 31, 0); } 100% { box-shadow: 0 0 0 2px var(--arquivo-black), 0 0 0 0 rgba(193, 18, 31, 0); } }
 
         /* ECRÃ DE EPÍLOGO */
-        #epilogue-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--arquivo-black); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 6000; padding: 20px; box-sizing: border-box; background-image: linear-gradient(rgba(27,27,27,0.85), rgba(193,18,31,0.6)), url('https://images.unsplash.com/photo-1549480111-e666993132fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'); background-size: cover; background-position: center; transition: opacity 1.5s ease; }
+        #epilogue-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--arquivo-black); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 6000; padding: 20px; box-sizing: border-box; background-image: linear-gradient(rgba(27,27,27,0.85), rgba(193,18,31,0.6)), url('/api/public/cravo/assets/hero.webp'); background-size: cover; background-position: center; transition: opacity 1.5s ease; }
         .epilogue-content { background: rgba(27, 27, 27, 0.95); padding: 40px; border: 3px solid var(--cravo-red); max-width: 600px; box-shadow: 0 0 50px rgba(193, 18, 31, 0.5); animation: fadeInCinematic 3s forwards; text-align: center; }
         .epilogue-title { color: var(--cravo-red); font-family: var(--font-title); font-size: clamp(2.5rem, 8vw, 4rem); text-transform: uppercase; margin-top: 0; margin-bottom: 20px; letter-spacing: 2px; }
         .epilogue-text { color: var(--lisboa-beige); font-family: var(--font-ui); font-size: clamp(1.05rem, 4vw, 1.25rem); line-height: 1.8; margin-bottom: 35px; }
@@ -209,7 +209,7 @@
         </div>
 
         <div id="splash-screen">
-            <img id="splash-logo" class="splash-logo" src="https://looptales.com/wp-content/uploads/2026/03/logo-looptales-1.png" alt="Logo">
+            <img id="splash-logo" class="splash-logo" src="/api/public/cravo/assets/logo.png" alt="Logo">
             <button id="btn-start-cinematic" class="btn-start" style="max-width: 300px; background-color: var(--cravo-red);" data-i18n="splash_btn">SINTONIZAR SINAL</button>
             <div id="splash-content" class="hidden-section" style="flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;">
                 <h1 class="cinematic-title cinematic-text" data-i18n="splash_title">25 DE ABRIL</h1>
@@ -379,15 +379,15 @@
                 lng: -8.97209576325286, 
                 distanciaParaDesbloquear: 200,
                 audioCaminhada: { 
-                    pt: "https://looptales.com/wp-content/uploads/2026/03/Zeca-Afonso-Grandola-Vila-Morena.wav", 
+                    pt: "/api/public/cravo/assets/audio/Zeca-Afonso-Grandola-Vila-Morena.wav", 
                     en: "https://actions.google.com/sounds/v1/foley/walking_on_dirt_road.ogg"
                 },
                 respostasAceites: ["tejo", "tagus"],
                 conteudo: {
                     pt: { titulo: "Transmissão Recebida 📜", mensagem: "TERREIRO DO PAÇO: As colunas militares tomam posição. As forças do regime estão cercadas. Para confirmar a receção, qual é o nome do rio que corre logo atrás de si?", textoBotao: "Descodificar Nova Rota" },
                     en: { titulo: "Transmission Received 📜", mensagem: "TERREIRO DO PAÇO: Military columns take position. Regime forces are surrounded. To confirm reception, what is the name of the river flowing right behind you?", textoBotao: "Decode New Route" },
-                    imagem: "https://looptales.com/wp-content/uploads/2026/03/images.jpg",
-                    audio: "https://looptales.com/wp-content/uploads/2026/03/25-de-Abril-Relato-de-Adelino-Gomes-Rua-Augusta-Rossio-Carmo.wav"
+                    imagem: "/api/public/cravo/assets/cravo%202.jpg",
+                    audio: "/api/public/cravo/assets/audio/25-Abril-Relato-Adelino-Gomes.wav"
                 }
             },
             {
@@ -402,8 +402,8 @@
                     pt: { titulo: "Sinal Intercetado 🎧", mensagem: "Estúdios da Rádio Renascença. O relógio marca meia-noite e vinte. Qual é a primeira palavra da canção senha transmitida nesta rádio?", textoBotao: "Avançar Posição" },
                     en: { titulo: "Signal Intercepted 🎧", mensagem: "Rádio Renascença studios. The clock strikes twelve twenty. What is the first word of the password song broadcast on this radio?", textoBotao: "Advance Position" },
                     video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                    imagem: "https://looptales.com/wp-content/uploads/2026/03/images.jpg",
-                    audio: "https://looptales.com/wp-content/uploads/2026/03/25-de-Abril-Relato-de-Adelino-Gomes-Rua-Augusta-Rossio-Carmo.wav"
+                    imagem: "/api/public/cravo/assets/cravo%202.jpg",
+                    audio: "/api/public/cravo/assets/audio/25-Abril-Relato-Adelino-Gomes.wav"
                 }
             },
             {
@@ -417,7 +417,7 @@
                 conteudo: {
                     pt: { titulo: "Relatório de Infiltração 📍", mensagem: "A coluna desce a Avenida. A população junta-se aos militares. Qual é a flor que está a ser colocada nos canos das espingardas?", textoBotao: "Seguir para o Quartel" },
                     en: { titulo: "Infiltration Report 📍", mensagem: "The column marches down the Avenue. The population joins the military. What flower is being placed in the gun barrels?", textoBotao: "Proceed to Barracks" },
-                    imagem: "https://images.unsplash.com/photo-1621251862529-688fc9875e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+                    imagem: "/api/public/cravo/assets/salgueiro.jpg"
                 }
             },
             {
@@ -431,7 +431,7 @@
                 conteudo: {
                     pt: { titulo: "MISSÃO CONCLUÍDA 🔓", mensagem: "O regime caiu. O Largo do Carmo está repleto de pessoas. Recuperou todos os fragmentos desta memória histórica. Dirija-se ao ponto de encontro para debriefing.", textoBotao: "Desbloquear Arquivo Final" },
                     en: { titulo: "MISSION ACCOMPLISHED 🔓", mensagem: "The regime has fallen. Largo do Carmo is crowded with people. You have recovered all fragments of this historical memory. Head to the rendezvous point for debriefing.", textoBotao: "Unlock Final Archive" },
-                    imagem: "https://images.unsplash.com/photo-1549480111-e666993132fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+                    imagem: "/api/public/cravo/assets/hero.webp"
                 }
             }
         ];
@@ -538,7 +538,7 @@
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title: title, artist: 'Comando Operacional MFA', album: 'Projeto Cravo - Documentos Secretos',
-                    artwork: [{ src: 'https://looptales.com/wp-content/uploads/2026/03/logo-looptales-1.png', sizes: '512x512', type: 'image/png' }]
+                    artwork: [{ src: '/api/public/cravo/assets/logo.png', sizes: '512x512', type: 'image/png' }]
                 });
                 navigator.mediaSession.setActionHandler('seekbackward', function() {});
                 navigator.mediaSession.setActionHandler('seekforward', function() {});
@@ -743,7 +743,7 @@
                 for (let i = 0; i < etapas; i++) {
                     const local = locaisSecretos[i];
                     const div = document.createElement('div'); div.className = 'arquivo-item';
-                    div.innerHTML = `<img src="${local.conteudo.imagem || 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=150&q=60'}" alt="${local.nome[currentLang]}"><div class="arquivo-info"><h4>${local.nome[currentLang]}</h4><p>${i18n[currentLang].status_unlocked}</p></div>`;
+                    div.innerHTML = `<img src="${local.conteudo.imagem || '/api/public/cravo/assets/cravo%202.jpg'}" alt="${local.nome[currentLang]}"><div class="arquivo-info"><h4>${local.nome[currentLang]}</h4><p>${i18n[currentLang].status_unlocked}</p></div>`;
                     div.addEventListener('click', () => { playClickSound(); abrirDetalheArquivo(i); });
                     lista.appendChild(div);
                 }
