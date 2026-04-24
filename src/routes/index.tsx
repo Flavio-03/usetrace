@@ -39,7 +39,7 @@ function Index() {
   const [installed, setInstalled] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [platform, setPlatform] = useState<"ios" | "android" | "desktop" | "unknown">("unknown");
-  const [showIosHelp, setShowIosHelp] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
 
   useEffect(() => {
     registerPWA();
@@ -76,9 +76,7 @@ function Index() {
       setInstallEvent(null);
       return;
     }
-    if (platform === "ios") {
-      setShowIosHelp(true);
-    }
+    setShowHelp(true);
   };
 
   // Hide install button if already running as PWA
@@ -147,25 +145,45 @@ function Index() {
           Sem login · Funciona no navegador ou como app
         </p>
 
-        {showIosHelp && (
+        {showHelp && (
           <div className="mt-6 max-w-md rounded-lg border border-[#F2E8CF]/20 bg-[#1B1B1B] p-5 text-left">
             <div className="flex items-start justify-between gap-3">
               <h3 className="font-mono text-xs uppercase tracking-widest text-[#C1121F]">
-                Instalar no iPhone
+                {platform === "ios"
+                  ? "Instalar no iPhone"
+                  : platform === "android"
+                    ? "Instalar no Android"
+                    : "Instalar no celular"}
               </h3>
               <button
-                onClick={() => setShowIosHelp(false)}
+                onClick={() => setShowHelp(false)}
                 className="text-[#F2E8CF]/60 hover:text-[#F2E8CF]"
                 aria-label="Fechar"
               >
                 ✕
               </button>
             </div>
-            <ol className="mt-3 space-y-2 text-sm text-[#F2E8CF]/80">
-              <li>1. Toque no ícone de <strong>Compartilhar</strong> (□↑) na barra do Safari</li>
-              <li>2. Role e escolha <strong>"Adicionar à Tela de Início"</strong></li>
-              <li>3. Toque em <strong>"Adicionar"</strong> no canto superior direito</li>
-            </ol>
+            {platform === "ios" && (
+              <ol className="mt-3 space-y-2 text-sm text-[#F2E8CF]/80">
+                <li>1. Toque no ícone de <strong>Compartilhar</strong> (□↑) na barra do Safari</li>
+                <li>2. Role e escolha <strong>"Adicionar à Tela de Início"</strong></li>
+                <li>3. Toque em <strong>"Adicionar"</strong> no canto superior direito</li>
+              </ol>
+            )}
+            {platform === "android" && (
+              <ol className="mt-3 space-y-2 text-sm text-[#F2E8CF]/80">
+                <li>1. Toque no menu <strong>⋮</strong> no canto superior direito do Chrome</li>
+                <li>2. Escolha <strong>"Instalar app"</strong> ou <strong>"Adicionar à tela inicial"</strong></li>
+                <li>3. Confirme em <strong>"Instalar"</strong></li>
+              </ol>
+            )}
+            {platform !== "ios" && platform !== "android" && (
+              <ol className="mt-3 space-y-2 text-sm text-[#F2E8CF]/80">
+                <li>1. Abra <strong>https://usetrace.lovable.app</strong> no celular</li>
+                <li>2. No <strong>Chrome (Android)</strong> ou <strong>Safari (iPhone)</strong></li>
+                <li>3. Toque novamente em <strong>"Baixar App"</strong> e siga as instruções</li>
+              </ol>
+            )}
             <p className="mt-3 font-mono text-[10px] text-[#F2E8CF]/50">
               O Trace abrirá em tela cheia, como um app nativo.
             </p>
