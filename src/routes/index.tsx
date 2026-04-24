@@ -4,23 +4,36 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+    <div className="flex min-h-screen flex-col bg-background">
+      <div className="flex items-center justify-between gap-4 border-b bg-[#1B1B1B] px-4 py-2 text-sm text-[#F2E8CF]">
+        <span className="font-mono uppercase tracking-widest">
+          Projeto Cravo — Preview
+        </span>
+        <div className="flex gap-2">
+          <a
+            href="/cravo/index.html"
+            target="cravo-frame"
+            className="rounded border border-[#F2E8CF]/40 px-3 py-1 hover:bg-[#C1121F]"
+          >
+            Landing
+          </a>
+          <a
+            href="/cravo/experiencia.html"
+            target="cravo-frame"
+            className="rounded border border-[#F2E8CF]/40 px-3 py-1 hover:bg-[#C1121F]"
+          >
+            Experiência
+          </a>
+        </div>
+      </div>
+      <iframe
+        name="cravo-frame"
+        src="/cravo/index.html"
+        title="Projeto Cravo"
+        className="h-[calc(100vh-40px)] w-full border-0"
       />
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
