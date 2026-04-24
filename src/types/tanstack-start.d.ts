@@ -2,3 +2,4 @@
 // option to createFileRoute (declared in @tanstack/start-client-core/serverRoute).
 import "@tanstack/react-start";
 import "@tanstack/start-client-core";
+/// <reference types="vite-plugin-pwa/client" />
