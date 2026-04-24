@@ -39,6 +39,9 @@ function Index() {
   const [installed, setInstalled] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [platform, setPlatform] = useState<"ios" | "android" | "desktop" | "unknown">("unknown");
+  const [browser, setBrowser] = useState<
+    "chrome" | "edge" | "firefox" | "safari" | "opera" | "samsung" | "other"
+  >("other");
   const [showHelp, setShowHelp] = useState(false);
 
   useEffect(() => {
@@ -56,6 +59,15 @@ function Index() {
     if (/iphone|ipad|ipod/i.test(ua)) setPlatform("ios");
     else if (/android/i.test(ua)) setPlatform("android");
     else setPlatform("desktop");
+
+    // Detect browser (order matters)
+    if (/OPR\/|Opera|OPT\//i.test(ua)) setBrowser("opera");
+    else if (/SamsungBrowser/i.test(ua)) setBrowser("samsung");
+    else if (/Edg\//i.test(ua)) setBrowser("edge");
+    else if (/Firefox|FxiOS/i.test(ua)) setBrowser("firefox");
+    else if (/Chrome|CriOS/i.test(ua)) setBrowser("chrome");
+    else if (/Safari/i.test(ua)) setBrowser("safari");
+    else setBrowser("other");
 
     // Detect if already running as installed PWA
     const standalone =
@@ -171,11 +183,49 @@ function Index() {
               </ol>
             )}
             {platform === "android" && (
-              <ol className="mt-3 space-y-2 text-sm text-[#F2E8CF]/80">
-                <li>1. Toque no menu <strong>⋮</strong> no canto superior direito do Chrome</li>
-                <li>2. Escolha <strong>"Instalar app"</strong> ou <strong>"Adicionar à tela inicial"</strong></li>
-                <li>3. Confirme em <strong>"Instalar"</strong></li>
-              </ol>
+              <div className="mt-3 space-y-3 text-sm text-[#F2E8CF]/80">
+                {browser === "opera" && (
+                  <ol className="space-y-2">
+                    <li>1. Toque no <strong>logo do Opera</strong> (canto inferior direito)</li>
+                    <li>2. Vá em <strong>Adicionar a…</strong> → <strong>"Tela inicial"</strong></li>
+                    <li>3. Confirme em <strong>"Adicionar"</strong></li>
+                    <li className="text-[#F2E8CF]/60">
+                      Dica: para uma experiência completa de app, abra o site no <strong>Chrome</strong> e use "Instalar app".
+                    </li>
+                  </ol>
+                )}
+                {browser === "samsung" && (
+                  <ol className="space-y-2">
+                    <li>1. Toque no menu <strong>☰</strong> (canto inferior direito)</li>
+                    <li>2. Escolha <strong>"Adicionar página a"</strong> → <strong>"Tela inicial"</strong></li>
+                    <li>3. Confirme em <strong>"Adicionar"</strong></li>
+                  </ol>
+                )}
+                {browser === "firefox" && (
+                  <ol className="space-y-2">
+                    <li>1. Toque no menu <strong>⋮</strong> (canto inferior direito)</li>
+                    <li>2. Escolha <strong>"Instalar"</strong> ou <strong>"Adicionar à tela inicial"</strong></li>
+                    <li>3. Confirme em <strong>"Adicionar"</strong></li>
+                  </ol>
+                )}
+                {(browser === "chrome" || browser === "edge") && (
+                  <ol className="space-y-2">
+                    <li>1. Toque no menu <strong>⋮</strong> (canto superior direito)</li>
+                    <li>2. Escolha <strong>"Instalar app"</strong> ou <strong>"Adicionar à tela inicial"</strong></li>
+                    <li>3. Confirme em <strong>"Instalar"</strong></li>
+                  </ol>
+                )}
+                {(browser === "other" || browser === "safari") && (
+                  <ol className="space-y-2">
+                    <li>1. Abra o menu do seu navegador (ícone <strong>⋮</strong>, <strong>☰</strong> ou logo do app)</li>
+                    <li>2. Procure por <strong>"Instalar app"</strong>, <strong>"Adicionar à tela inicial"</strong> ou <strong>"Adicionar a → Tela inicial"</strong></li>
+                    <li>3. Confirme em <strong>"Adicionar"</strong> / <strong>"Instalar"</strong></li>
+                    <li className="text-[#F2E8CF]/60">
+                      Para a melhor experiência, recomendamos abrir no <strong>Chrome</strong> ou <strong>Edge</strong>.
+                    </li>
+                  </ol>
+                )}
+              </div>
             )}
             {platform !== "ios" && platform !== "android" && (
               <ol className="mt-3 space-y-2 text-sm text-[#F2E8CF]/80">
