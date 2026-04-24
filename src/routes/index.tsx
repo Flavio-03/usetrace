@@ -3,6 +3,11 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { registerPWA } from "@/lib/pwa-register";
 
+type DeferredInstallPrompt = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+};
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -30,7 +35,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [installEvent, setInstallEvent] = useState<any>(null);
+  const [installEvent, setInstallEvent] = useState<DeferredInstallPrompt | null>(null);
   const [installed, setInstalled] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [platform, setPlatform] = useState<"ios" | "android" | "desktop" | "unknown">("unknown");
@@ -41,7 +46,7 @@ function Index() {
 
     const handler = (e: Event) => {
       e.preventDefault();
-      setInstallEvent(e);
+      setInstallEvent(e as DeferredInstallPrompt);
     };
     window.addEventListener("beforeinstallprompt", handler);
     window.addEventListener("appinstalled", () => setInstalled(true));
@@ -65,7 +70,7 @@ function Index() {
 
   const handleInstall = async () => {
     if (installEvent) {
-      installEvent.prompt();
+      await installEvent.prompt();
       const { outcome } = await installEvent.userChoice;
       if (outcome === "accepted") setInstalled(true);
       setInstallEvent(null);
@@ -73,22 +78,14 @@ function Index() {
     }
     if (platform === "ios") {
       setShowIosHelp(true);
-      return;
     }
-    if (platform === "android") {
-      alert(
-        "Abra o menu do Chrome (⋮) e escolha 'Instalar app' ou 'Adicionar à tela inicial'. O app abrirá em tela cheia, como um app nativo.",
-      );
-      return;
-    }
-    // Desktop fallback
-    alert(
-      "Para instalar como app no celular:\n\n1. Abra https://usetrace.lovable.app no Chrome do seu Android (ou Safari do iPhone)\n2. Toque no botão 'Baixar App'\n3. Confirme a instalação",
-    );
   };
 
   // Hide install button if already running as PWA
   const showInstallButton = !installed && !isStandalone;
+  const showNativeInstallButton = showInstallButton && platform === "android" && !!installEvent;
+  const showPreparingInstallState = showInstallButton && platform === "android" && !installEvent;
+  const showIosInstallButton = showInstallButton && platform === "ios";
 
   return (
     <div className="min-h-screen bg-[#0E0E0E] text-[#F2E8CF]">
@@ -128,12 +125,20 @@ function Index() {
           >
             Entrar →
           </Link>
-          {showInstallButton && (
+          {showNativeInstallButton && (
             <button
               onClick={handleInstall}
               className="w-full rounded-md border-2 border-[#F2E8CF] bg-transparent px-8 py-4 font-mono text-sm font-bold uppercase tracking-widest text-[#F2E8CF] transition hover:bg-[#F2E8CF] hover:text-[#0E0E0E] sm:w-auto"
             >
               ↓ Baixar App
+            </button>
+          )}
+          {showIosInstallButton && (
+            <button
+              onClick={handleInstall}
+              className="w-full rounded-md border-2 border-[#F2E8CF] bg-transparent px-8 py-4 font-mono text-sm font-bold uppercase tracking-widest text-[#F2E8CF] transition hover:bg-[#F2E8CF] hover:text-[#0E0E0E] sm:w-auto"
+            >
+              ↓ Instalar no iPhone
             </button>
           )}
           {(installed || isStandalone) && (
@@ -146,6 +151,12 @@ function Index() {
         <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-[#F2E8CF]/40">
           Sem login · Funciona no navegador ou como app
         </p>
+
+        {showPreparingInstallState && (
+          <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-[#F2E8CF]/55">
+            Preparando instalação no Android...
+          </p>
+        )}
 
         {showIosHelp && (
           <div className="mt-6 max-w-md rounded-lg border border-[#F2E8CF]/20 bg-[#1B1B1B] p-5 text-left">
