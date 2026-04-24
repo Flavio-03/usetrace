@@ -320,18 +320,18 @@ function Index() {
         <section className="mt-24 grid w-full gap-6 text-left md:grid-cols-3">
           {[
             {
-              t: "Escolha",
-              d: "Uma experiência. Cada caminhada é um capítulo de uma narrativa real.",
+              t: t("feature.1.t"),
+              d: t("feature.1.d"),
               i: "📍",
             },
             {
-              t: "Vá até o lugar",
-              d: "Caminhe até o ponto certo e desbloqueie histórias ancoradas no território.",
+              t: t("feature.2.t"),
+              d: t("feature.2.d"),
               i: "🗺️",
             },
             {
-              t: "Explore",
-              d: "Áudios, textos e imagens revelam camadas invisíveis da cidade.",
+              t: t("feature.3.t"),
+              d: t("feature.3.d"),
               i: "🎧",
             },
           ].map((f) => (
@@ -350,86 +350,73 @@ function Index() {
 
         <section id="sobre" className="mt-24 w-full scroll-mt-24 text-left">
           <span className="font-display text-[10px] font-semibold uppercase tracking-[0.3em] text-trace-orange">
-            Sobre nós
+            {t("about.eyebrow")}
           </span>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">
-            O que é o Trace
+            {t("about.title")}
           </h2>
           <div className="mt-5 space-y-4 text-base leading-relaxed text-fog-gray md:text-lg">
+            <p>{t("about.p1")}</p>
+            <p>{t("about.p2")}</p>
             <p>
-              O <strong className="text-soft-white">Trace</strong> é uma plataforma de narrativas
-              interativas ancoradas no território. Cada experiência transforma uma cidade — ou um
-              bairro, uma rua, um edifício — no palco de uma história real, ficcional ou histórica
-              que se desenrola enquanto você caminha.
-            </p>
-            <p>
-              Combinamos <strong className="text-soft-white">geolocalização (GPS)</strong>,
-              áudio imersivo, arquivos visuais e missões para criar uma camada invisível sobre
-              o espaço público. O telemóvel deixa de ser uma tela e passa a ser um portal para
-              a memória do lugar.
-            </p>
-            <p>
-              É uma plataforma aberta, criada pela{" "}
+              {t("about.p3.before")}
               <a
                 href="https://looptales.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-trace-orange underline-offset-4 hover:underline"
               >
-                Looptales Studio
+                {t("about.p3.link")}
               </a>
-              , para abrigar experiências de diferentes autores, instituições e cidades.
+              {t("about.p3.after")}
             </p>
           </div>
         </section>
 
         <section id="experiencias" className="mt-24 w-full scroll-mt-24 text-left">
           <span className="font-display text-[10px] font-semibold uppercase tracking-[0.3em] text-trace-orange">
-            Experiências
+            {t("exp.eyebrow")}
           </span>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">
-            Disponíveis agora
+            {t("exp.title")}
           </h2>
           <p className="mt-3 text-sm text-fog-gray md:text-base">
-            Cada experiência tem sua própria identidade, ritmo e narrativa.
+            {t("exp.subtitle")}
           </p>
 
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <article className="flex flex-col rounded-xl border border-trace-orange/30 bg-gradient-to-br from-graphite to-midnight-navy p-6">
               <span className="font-display text-[10px] font-semibold uppercase tracking-[0.3em] text-trace-orange">
-                Lisboa · Portugal
+                {t("exp.cravo.location")}
               </span>
               <h3 className="mt-2 font-display text-2xl font-bold tracking-tight">
-                Projeto Cravo
+                {t("exp.cravo.title")}
               </h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-fog-gray">
-                Reviva a Revolução de 25 de Abril caminhando pelas ruas de Lisboa.
-                Uma jornada por arquivos sonoros, locais históricos e a memória viva
-                da liberdade.
+                {t("exp.cravo.desc")}
               </p>
               <Link
                 to="/map"
                 className="mt-5 inline-flex w-fit items-center gap-2 rounded-md bg-trace-orange px-5 py-3 font-display text-xs font-semibold uppercase tracking-[0.15em] text-white transition hover:bg-trace-orange/90"
               >
-                Ir para a experiência →
+                {t("exp.cta")}
               </Link>
             </article>
 
             <article className="flex flex-col rounded-xl border border-soft-white/10 bg-graphite/40 p-6">
               <span className="font-display text-[10px] font-semibold uppercase tracking-[0.3em] text-soft-white/50">
-                Em breve
+                {t("exp.soon.eyebrow")}
               </span>
               <h3 className="mt-2 font-display text-2xl font-bold tracking-tight text-soft-white/70">
-                Novas narrativas
+                {t("exp.soon.title")}
               </h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-fog-gray">
-                Estamos a preparar novas experiências em outras cidades.
-                Quer trazer uma história para o Trace?{" "}
+                {t("exp.soon.desc.before")}
                 <button
                   onClick={() => setShowContact(true)}
                   className="text-trace-orange underline-offset-4 hover:underline"
                 >
-                  Fale com a gente
+                  {t("exp.soon.desc.link")}
                 </button>.
               </p>
             </article>
@@ -440,19 +427,19 @@ function Index() {
       <footer className="border-t border-soft-white/10 px-6 py-8 md:px-12">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-3">
-            <img src={traceWordmark} alt="Trace" className="h-5 w-auto" />
+            <img src="/favicon.png" alt="Trace" className="h-6 w-6" />
             <span className="text-[10px] uppercase tracking-[0.25em] text-silver-gray/70">
               © {new Date().getFullYear()} Looptales Studio
             </span>
           </div>
           <div className="flex items-center gap-6 text-[10px] uppercase tracking-[0.25em] text-silver-gray/70">
-            <a href="#sobre" className="transition-colors hover:text-trace-orange">Sobre</a>
-            <a href="#experiencias" className="transition-colors hover:text-trace-orange">Experiências</a>
+            <a href="#sobre" className="transition-colors hover:text-trace-orange">{t("footer.about")}</a>
+            <a href="#experiencias" className="transition-colors hover:text-trace-orange">{t("footer.experiences")}</a>
             <button
               onClick={() => setShowContact(true)}
               className="transition-colors hover:text-trace-orange"
             >
-              Contato
+              {t("footer.contact")}
             </button>
           </div>
         </div>
@@ -475,22 +462,22 @@ function Index() {
               ✕
             </button>
             <span className="font-display text-[10px] font-semibold uppercase tracking-[0.3em] text-trace-orange">
-              Fale com a gente
+              {t("contact.eyebrow")}
             </span>
             <h3 className="mt-2 font-display text-2xl font-bold tracking-tight text-soft-white">
-              Contato
+              {t("contact.title")}
             </h3>
             <p className="mt-2 text-sm text-fog-gray">
-              Dúvidas, parcerias ou ideias? Envie uma mensagem.
+              {t("contact.subtitle")}
             </p>
 
             {contactStatus === "sent" ? (
               <div className="mt-6 rounded-lg border border-urban-cyan/40 bg-urban-cyan/5 p-5 text-center">
                 <p className="font-display text-sm font-semibold uppercase tracking-[0.15em] text-urban-cyan">
-                  ✓ Mensagem enviada
+                  {t("contact.sent")}
                 </p>
                 <p className="mt-2 text-sm text-fog-gray">
-                  A nossa equipa responderá em breve.
+                  {t("contact.sent.note")}
                 </p>
                 <button
                   onClick={() => {
@@ -499,50 +486,50 @@ function Index() {
                   }}
                   className="mt-4 text-xs uppercase tracking-[0.15em] text-soft-white/60 hover:text-soft-white"
                 >
-                  Fechar
+                  {t("contact.close")}
                 </button>
               </div>
             ) : (
               <form onSubmit={handleContactSubmit} className="mt-5 space-y-4 text-left">
                 <div>
                   <label className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-soft-white/70">
-                    Nome
+                    {t("contact.name")}
                   </label>
                   <input
                     type="text"
                     name="Nome"
                     required
                     className="mt-2 w-full rounded-md border border-soft-white/15 bg-midnight-navy px-3 py-2 text-sm text-soft-white outline-none transition focus:border-trace-orange"
-                    placeholder="Seu nome"
+                    placeholder={t("contact.name.ph")}
                   />
                 </div>
                 <div>
                   <label className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-soft-white/70">
-                    E-mail
+                    {t("contact.email")}
                   </label>
                   <input
                     type="email"
                     name="Email"
                     required
                     className="mt-2 w-full rounded-md border border-soft-white/15 bg-midnight-navy px-3 py-2 text-sm text-soft-white outline-none transition focus:border-trace-orange"
-                    placeholder="voce@exemplo.com"
+                    placeholder={t("contact.email.ph")}
                   />
                 </div>
                 <div>
                   <label className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-soft-white/70">
-                    Mensagem
+                    {t("contact.message")}
                   </label>
                   <textarea
                     name="Mensagem"
                     required
                     rows={4}
                     className="mt-2 w-full resize-none rounded-md border border-soft-white/15 bg-midnight-navy px-3 py-2 text-sm text-soft-white outline-none transition focus:border-trace-orange"
-                    placeholder="Sua mensagem..."
+                    placeholder={t("contact.message.ph")}
                   />
                 </div>
                 {contactStatus === "error" && (
                   <p className="text-xs text-trace-orange">
-                    Não foi possível enviar. Tente novamente ou escreva para contato@looptales.com.
+                    {t("contact.error")}
                   </p>
                 )}
                 <button
@@ -550,7 +537,7 @@ function Index() {
                   disabled={contactStatus === "sending"}
                   className="w-full rounded-md bg-trace-orange px-6 py-3 font-display text-xs font-semibold uppercase tracking-[0.15em] text-white transition hover:bg-trace-orange/90 disabled:opacity-60"
                 >
-                  {contactStatus === "sending" ? "Enviando..." : "Enviar mensagem"}
+                  {contactStatus === "sending" ? t("contact.sending") : t("contact.send")}
                 </button>
               </form>
             )}
