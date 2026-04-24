@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { registerPWA } from "@/lib/pwa-register";
+import traceLogo from "@/assets/trace-logo.png";
+import traceWordmark from "@/assets/trace-wordmark.png";
 
 type DeferredInstallPrompt = Event & {
   prompt: () => Promise<void>;
@@ -104,9 +106,7 @@ function Index() {
     <div className="min-h-screen bg-midnight-navy text-soft-white font-sans">
       <header className="flex items-center justify-between px-6 py-5 md:px-12">
         <div className="flex items-center gap-2">
-          <span className="font-display text-2xl font-bold tracking-[0.18em]">
-            TR<span className="text-trace-orange">.</span>ACE
-          </span>
+          <img src={traceWordmark} alt="Trace" className="h-7 w-auto md:h-8" />
         </div>
         <a
           href="/cravo"
@@ -117,6 +117,7 @@ function Index() {
       </header>
 
       <main className="mx-auto flex max-w-5xl flex-col items-center px-6 pb-20 pt-10 text-center md:pt-20">
+        <img src={traceLogo} alt="Trace" className="mb-6 h-32 w-auto md:h-40" />
         <span className="mb-6 inline-block rounded-full border border-soft-white/20 px-4 py-1 text-[10px] font-medium uppercase tracking-[0.3em] text-soft-white/70">
           Plataforma · MVP
         </span>
