@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/png" href="https://looptales.com/cravo/Assets/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://looptales.com/cravo/Assets/icon-192x192.png">
+    <meta name="theme-color" content="#1B1B1B">
+    
+    <title>Projeto Cravo | Jogo Imersivo de GPS em Lisboa - 25 de Abril</title>
+    <meta name="description" content="Descubra a Revolução de 25 de Abril de 1974 num jogo imersivo de GPS pelas ruas de Lisboa. Siga a rota militar, resolva enigmas e viva a história com o Projeto Cravo da Looptales Studio.">
+    <meta name="author" content="Looptales Studio">
+    <meta name="keywords" content="Projeto Cravo, Revolução dos Cravos, 25 de Abril, Jogo Imersivo, GPS Lisboa, Escape Room ao ar livre, Looptales Studio, História de Portugal, Turismo Lisboa">
+    <meta name="robots" content="index, follow">
+        
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Cartaz do Projeto Cravo - Jogo Imersivo de GPS em Lisboa">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://looptales.com/cravo/">
+    <meta property="og:title" content="Projeto Cravo | A Cidade como Narrativa">
+    <meta property="og:description" content="Transforme o seu telemóvel num radar e as ruas de Lisboa no palco da Revolução de 1974. Aceita a missão?">
+    <meta property="og:image" content="https://looptales.com/cravo/Assets/hero.webp">
+    <meta property="og:site_name" content="Looptales Studio">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://looptales.com/cravo/">
+    <meta name="twitter:title" content="Projeto Cravo | Jogo Imersivo em Lisboa">
+    <meta name="twitter:description" content="Siga a rota militar de 25 de Abril de 1974 e reconstrua as transmissões perdidas neste jogo GPS em Lisboa.">
+    <meta name="twitter:image" content="https://looptales.com/cravo/Assets/hero.webp">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Special+Elite&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* DESIGN SYSTEM BASE */
+        :root {
+            --cravo-red: #C1121F;
+            --lisboa-beige: #F2E8CF;
+            --lisboa-beige-dark: #B5A682;
+            --militar-green: #386641;
+            --arquivo-black: #1B1B1B;
+            --map-grey: #6C757D;
+            --font-title: 'Playfair Display', serif;
+            --font-ui: 'Special Elite', cursive;
+            --font-mono: 'Courier Prime', monospace;
+        }
+
+        body {
+            background-color: var(--lisboa-beige-dark);
+            background-image: radial-gradient(var(--map-grey) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--arquivo-black);
+            font-family: var(--font-ui);
+            margin: 0; padding: 0; overflow-x: hidden;
+        }
+        
+        .cinematic-overlay {
+            background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('https://looptales.com/cravo/Assets/hero.webp');
+            background-size: cover; background-position: center;
+        }
+
+        /* CARTÕES */
+        .intro-card {
+            background: var(--lisboa-beige); color: var(--arquivo-black);
+            padding: 45px 35px; border: 3px solid var(--arquivo-black);
+            box-shadow: 10px 10px 0px var(--arquivo-black);
+            position: relative; box-sizing: border-box; margin: 20px 0;
+        }
+        .intro-card::before {
+            content: attr(data-label); position: absolute; top: -16px; left: 20px;
+            background: var(--cravo-red); color: var(--lisboa-beige);
+            font-family: var(--font-mono); font-size: 0.9rem; padding: 4px 14px;
+            font-weight: bold; letter-spacing: 2px; border: 2px solid var(--arquivo-black);
+            box-shadow: 3px 3px 0px var(--arquivo-black); transform: rotate(-3deg); z-index: 10;
+        }
+        .intro-card.alert-card::before { transform: rotate(2deg); }
+        .intro-card h2 {
+            font-family: var(--font-title); color: var(--arquivo-black); margin-top: 0;
+            font-size: clamp(1.8rem, 4vw, 2.2rem); font-weight: 900; text-transform: uppercase;
+            border-bottom: 3px solid var(--arquivo-black); padding-bottom: 15px; margin-bottom: 25px; line-height: 1.1;
+        }
+        .intro-card p {
+            font-family: var(--font-ui); font-weight: 600; font-size: 1.1rem;
+            line-height: 1.6; color: var(--arquivo-black); text-align: justify;
+        }
+
+        /* BOTÕES */
+        .btn-start, .btn-secondary {
+            font-family: var(--font-mono); font-weight: bold; text-transform: uppercase;
+            letter-spacing: 1px; cursor: pointer; transition: all 0.2s; box-sizing: border-box;
+            text-align: center; border: 3px solid var(--arquivo-black); display: inline-flex;
+            align-items: center; justify-content: center; text-decoration: none !important;
+            padding: 14px 28px; font-size: 1rem; min-height: 56px; box-shadow: 4px 4px 0px var(--arquivo-black);
+        }
+        .btn-start:hover, .btn-secondary:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--arquivo-black); }
+        .btn-start:active, .btn-secondary:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--arquivo-black); }
+        .btn-start:disabled { opacity: 0.7; cursor: not-allowed; transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--arquivo-black); }
+        
+        .btn-start { background-color: var(--militar-green); color: white; }
+        .btn-start.cravo { background-color: var(--cravo-red); }
+        .btn-secondary { background-color: var(--lisboa-beige-dark); color: var(--arquivo-black); }
+
+        .lang-btn {
+            background: var(--lisboa-beige-dark); border: 2px solid var(--arquivo-black);
+            color: var(--arquivo-black); font-family: var(--font-mono); font-weight: bold;
+            padding: 6px 14px; cursor: pointer; transition: all 0.2s;
+            box-shadow: 2px 2px 0px var(--arquivo-black); font-size: 0.85rem;
+            min-width: 48px; text-align: center; min-height: auto !important;
+        }
+        .lang-btn.active {
+            background: var(--cravo-red); color: var(--lisboa-beige);
+            box-shadow: 0px 0px 0px var(--arquivo-black); transform: translate(2px, 2px);
+        }
+
+        /* UTILITÁRIOS */
+        .media-content {
+            width: 100%; border: 3px solid var(--arquivo-black); box-sizing: border-box;
+            background-color: var(--arquivo-black); filter: grayscale(100%) sepia(20%) contrast(120%);
+        }
+        .hero-title { font-family: var(--font-title); }
+        .text-mono { font-family: var(--font-mono); }
+        .answer-input {
+            width: 100%; padding: 15px; border: 3px solid var(--arquivo-black);
+            background-color: var(--lisboa-beige-dark); font-family: var(--font-mono);
+            font-size: 16px; color: var(--arquivo-black); box-sizing: border-box;
+            outline: none; text-transform: uppercase; letter-spacing: 1px; transition: border-color 0.2s;
+        }
+        .answer-input:focus { border-color: var(--cravo-red); }
+
+        /* LÓGICA DE PÁGINAS */
+        .page-content { width: 100%; display: none; }
+        .page-content.active-page { display: block !important; }
+        nav button { background: none; border: none; cursor: pointer; outline: none !important; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-[var(--arquivo-black)] text-[var(--lisboa-beige)] z-[99999] border-b-4 border-[var(--cravo-red)] shadow-2xl">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            
+            <div class="cursor-pointer hover:opacity-80 transition-opacity" onclick="cravoPage('page-home')">
+                <img src="Assets/logohead.png" alt="Logótipo 300x80" width="300" height="80" class="h-10 sm:h-12 lg:h-14 w-auto object-contain">
+            </div>
+            
+            <div class="hidden md:flex items-center gap-6">
+                <div class="flex gap-6 font-mono text-base font-bold">
+                    <button type="button" onclick="cravoPage('page-home')" class="hover:text-[var(--cravo-red)] transition-colors uppercase" data-i18n="nav_home">Início</button>
+                    <button type="button" onclick="cravoPage('page-sobre')" class="hover:text-[var(--cravo-red)] transition-colors uppercase" data-i18n="nav_about">Sobre Nós</button>
+                    <button type="button" onclick="cravoPage('page-contactos')" class="hover:text-[var(--cravo-red)] transition-colors uppercase" data-i18n="nav_contact">Contactos</button>
+                </div>
+                <div class="flex gap-2 ml-4 border-l-2 border-[var(--map-grey)] pl-4">
+                    <button type="button" class="lang-btn active" data-lang="pt" onclick="cravoLang('pt')">PT</button>
+                    <button type="button" class="lang-btn" data-lang="en" onclick="cravoLang('en')">EN</button>
+                </div>
+            </div>
+            
+            <div class="flex md:hidden items-center gap-4">
+                <div class="flex gap-2">
+                    <button type="button" class="lang-btn active" data-lang="pt" onclick="cravoLang('pt')">PT</button>
+                    <button type="button" class="lang-btn" data-lang="en" onclick="cravoLang('en')">EN</button>
+                </div>
+                <button type="button" onclick="toggleMenu()" class="text-[var(--lisboa-beige)] hover:text-[var(--cravo-red)] focus:outline-none transition-colors">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden md:hidden bg-[#111] border-t border-[var(--map-grey)] shadow-inner">
+            <div class="flex flex-col items-center py-4 gap-4 font-mono text-sm font-bold">
+                <button type="button" onclick="cravoPage('page-home')" class="hover:text-[var(--cravo-red)] uppercase w-full py-3 transition-colors" data-i18n="nav_home">Início</button>
+                <button type="button" onclick="cravoPage('page-sobre')" class="hover:text-[var(--cravo-red)] uppercase w-full py-3 transition-colors" data-i18n="nav_about">Sobre Nós</button>
+                <button type="button" onclick="cravoPage('page-contactos')" class="hover:text-[var(--cravo-red)] uppercase w-full py-3 transition-colors" data-i18n="nav_contact">Contactos</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="page-home" class="page-content active-page flex-grow">
+        <header class="relative min-h-screen flex items-center justify-center cinematic-overlay px-6 pt-32 pb-16">
+            <div class="max-w-4xl mx-auto flex flex-col items-center justify-center text-center z-10 w-full px-4 mt-12 md:mt-16">
+                <div class="inline-block border-2 border-[var(--arquivo-black)] bg-[var(--cravo-red)] px-8 py-3 mb-8 transform -rotate-2 shadow-[4px_4px_0px_var(--arquivo-black)]">
+                    <span class="text-mono text-[var(--lisboa-beige)] tracking-widest font-bold uppercase text-lg" data-i18n="hero_label">Acesso Restrito // 1974</span>
+                </div>
+                <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-widest mb-6 drop-shadow-xl text-[var(--lisboa-beige)] md:whitespace-nowrap" data-i18n="hero_title">
+                    Projeto Cravo
+                </h1>
+                <p class="text-mono text-xl md:text-2xl text-[var(--lisboa-beige)] mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md font-bold" data-i18n="hero_desc">
+                    Os documentos secretos de abril foram espalhados por Lisboa.<br>
+                    Siga a rota militar e reconstrua as transmissões perdidas.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-6 w-full">
+                    <button type="button" onclick="document.getElementById('como-funciona').scrollIntoView({behavior: 'smooth'})" class="btn-secondary w-full sm:w-auto px-8" data-i18n="hero_btn_inst">
+                        Instruções da Operação
+                    </button>
+                    <button type="button" onclick="openModal()" class="btn-start cravo w-full sm:w-auto px-8 text-center" data-i18n="hero_btn_start">
+                        Iniciar Missão Agora
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <section class="py-24 px-6 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="intro-card transform -rotate-1 !p-3 shadow-xl" data-label="DOSSIÊ 01" data-i18n-label="label_dossier">
+                    <img src="https://looptales.com/cravo/Assets/cravo%202.jpg" alt="Revolução de Abril" class="media-content block">
+                </div>
+                <div class="intro-card shadow-xl" data-label="INFORMAÇÃO CLASSIFICADA" data-i18n-label="label_info">
+                    <h2 class="hero-title text-4xl font-black uppercase border-b-4 border-[var(--cravo-red)] pb-4 mb-6 text-[var(--arquivo-black)]" data-i18n="city_title">A Cidade como Narrativa</h2>
+                    <p class="mb-5" data-i18n="city_p1">O <strong>Projeto Cravo</strong> não é apenas uma aula de história. É uma experiência imersiva de geolocalização (GPS) que transforma as ruas de Lisboa no cenário principal da Revolução dos Cravos.</p>
+                    <p class="mb-8" data-i18n="city_p2">Encarne um operacional. Caminhe até às coordenadas marcadas no mapa, desbloqueie arquivos confidenciais em áudio e vídeo e resolva os enigmas da madrugada que devolveu a liberdade a Portugal.</p>
+                    <ul class="text-mono text-sm space-y-3 bg-[var(--lisboa-beige-dark)] text-[var(--arquivo-black)] p-5 border-2 border-[var(--arquivo-black)] text-left">
+                        <li data-i18n="city_l1">✓ <strong>Duração:</strong> Aprox. 90 minutos</li>
+                        <li data-i18n="city_l2">✓ <strong>Partida:</strong> Terreiro do Paço</li>
+                        <li data-i18n="city_l3">✓ <strong>Requisitos:</strong> Telemóvel, GPS e Auscultadores</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="como-funciona" class="py-24 px-6 bg-[var(--arquivo-black)] text-[var(--lisboa-beige)] relative border-y-4 border-[var(--cravo-red)]">
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(var(--lisboa-beige) 1px, transparent 1px); background-size: 20px 20px;"></div>
+            <div class="max-w-6xl mx-auto relative z-10">
+                <h2 class="hero-title text-4xl md:text-5xl font-black uppercase text-center mb-16 text-[var(--cravo-red)] tracking-wider" data-i18n="proto_title">Protocolo de Infiltração</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="intro-card text-[var(--arquivo-black)]" data-label="PASSO 01" data-i18n-label="label_step1">
+                        <h2 style="font-size: 1.5rem; border-color: var(--cravo-red);" data-i18n="proto_1_title">1. Navegação</h2>
+                        <p data-i18n="proto_1_desc">Abra a aplicação no seu telemóvel. O radar GPS irá revelar um alvo tático de cada vez no mapa de Lisboa. Caminhe fisicamente em direção às coordenadas indicadas.</p>
+                    </div>
+                    <div class="intro-card text-[var(--arquivo-black)] md:transform md:translate-y-8" data-label="PASSO 02" data-i18n-label="label_step2">
+                        <h2 style="font-size: 1.5rem; border-color: var(--militar-green);" data-i18n="proto_2_title">2. Infiltração</h2>
+                        <p data-i18n="proto_2_desc">Ao atingir o perímetro do local histórico, o seu dispositivo irá intercetar uma transmissão automática com áudios e vídeos da época.</p>
+                    </div>
+                    <div class="intro-card text-[var(--arquivo-black)]" data-label="PASSO 03" data-i18n-label="label_step3">
+                        <h2 style="font-size: 1.5rem; border-color: var(--map-grey);" data-i18n="proto_3_title">3. Descodificação</h2>
+                        <p data-i18n="proto_3_desc">Analise o documento revelado, observe o que está ao seu redor na rua e introduza a senha correta para desbloquear as coordenadas do próximo alvo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="jogar" class="py-32 px-6 max-w-4xl mx-auto text-center">
+            <div class="intro-card alert-card text-left md:text-center text-[var(--arquivo-black)] shadow-2xl" data-label="ALERTA DE SISTEMA" data-i18n-label="label_alert">
+                <h2 class="!border-none !pb-0 text-[var(--cravo-red)]" data-i18n="cta_title">Pronto para a Missão?</h2>
+                <p class="mb-10 max-w-2xl mx-auto mt-4" data-i18n="cta_desc"><strong class="text-mono">Atenção:</strong> Esta experiência foi concebida para o terreno. Pegue no seu telemóvel com bateria, vá para as ruas de Lisboa e inicie o sistema de comunicações.</p>
+                <div class="flex justify-center">
+                    <button type="button" onclick="openModal()" class="btn-start cravo w-full md:w-auto" data-i18n="cta_btn">
+                        Iniciar Operação
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="page-sobre" class="page-content pt-32 pb-24 px-6 max-w-5xl mx-auto flex-grow w-full">
+        <h1 class="hero-title text-5xl md:text-6xl font-black uppercase border-b-4 border-[var(--cravo-red)] pb-4 mb-12 text-[var(--arquivo-black)] mt-10" data-i18n="about_title">Sobre Nós</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <div class="intro-card shadow-xl" data-label="ARQUIVO: LOOPTALES" data-i18n-label="label_archive">
+                <h2 class="hero-title text-3xl font-black uppercase border-b-4 border-[var(--arquivo-black)] pb-4 mb-6" data-i18n="about_m_title">A Missão</h2>
+                <p class="mb-5" data-i18n="about_p1">A <strong>LoopTales Studio</strong> nasce do desejo de contar histórias que ligam passado, presente e futuro através da tecnologia e da criatividade.</p>
+                <p data-i18n="about_p2">Dentro desse espírito surge o <em>Projeto Cravo</em>, uma iniciativa que transforma a memória da Revolução de 25 de Abril de 1974 numa experiência viva, convidando novas gerações a redescobrir o espírito de liberdade que marcou a história de Portugal.</p>
+            </div>
+            <div class="intro-card transform rotate-2 !p-3 shadow-xl" data-label="ANEXO FOTOGRÁFICO" data-i18n-label="label_photo">
+                <img src="https://looptales.com/cravo/Assets/salgueiro.jpg" alt="Documentos Antigos" class="media-content block">
+            </div>
+        </div>
+    </div>
+
+    <div id="page-contactos" class="page-content pt-32 pb-24 px-6 max-w-5xl mx-auto flex-grow w-full">
+        <h1 class="hero-title text-5xl md:text-6xl font-black uppercase border-b-4 border-[var(--cravo-red)] pb-4 mb-12 text-[var(--arquivo-black)] mt-10" data-i18n="contact_title">Contactos</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <div class="intro-card shadow-xl" data-label="CANAL DE COMUNICAÇÃO" data-i18n-label="label_comm">
+                <h2 class="hero-title text-3xl font-black uppercase border-b-4 border-[var(--arquivo-black)] pb-4 mb-6" data-i18n="contact_s_title">Estabelecer Ligação</h2>
+                <p class="mb-8" data-i18n="contact_desc">Tem dúvidas sobre a operação? Preencha as informações abaixo.</p>
+                
+                <form id="ajax-contact-form" action="https://formsubmit.co/ajax/contato@looptales.com" method="POST">
+                    <input type="text" name="_honey" style="display:none">
+
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="Nova mensagem - Contactos Projeto Cravo">
+                    <input type="hidden" name="Idioma_da_Pagina" class="current-lang-input" value="PT">
+                    
+                    <div class="mb-4">
+                        <label class="block font-mono font-bold mb-2" data-i18n="form_name">IDENTIFICAÇÃO (NOME)</label>
+                        <input type="text" name="Nome" class="answer-input" required placeholder="O SEU NOME..." data-i18n-placeholder="form_name_pl">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-mono font-bold mb-2" data-i18n="form_email">FREQUÊNCIA (EMAIL)</label>
+                        <input type="email" name="Email" class="answer-input" required placeholder="O SEU EMAIL..." data-i18n-placeholder="form_email_pl">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block font-mono font-bold mb-2" data-i18n="form_msg">MENSAGEM A TRANSMITIR</label>
+                        <textarea name="Mensagem" class="answer-input" rows="4" required placeholder="A SUA MENSAGEM..." data-i18n-placeholder="form_msg_pl"></textarea>
+                    </div>
+                    <button type="submit" class="btn-start cravo w-full" data-i18n="form_btn" id="contact-submit-btn">ENVIAR TRANSMISSÃO</button>
+                </form>
+
+                <div id="contact-success-msg" class="hidden text-center py-10 px-4 border-4 border-[var(--militar-green)] bg-[var(--lisboa-beige-dark)] shadow-[4px_4px_0px_var(--militar-green)] mt-4">
+                    <h3 class="font-black text-2xl uppercase text-[var(--militar-green)] mb-2" data-i18n="contact_success_title">Ligação Estabelecida</h3>
+                    <p class="font-bold text-[var(--arquivo-black)]" data-i18n="contact_success_desc">A nossa equipa intercetou a tua mensagem. Aguarda resposta do Quartel-General.</p>
+                </div>
+            </div>
+            
+            <div class="intro-card transform -rotate-1 shadow-xl bg-[var(--lisboa-beige-dark)]" data-label="COORDENADAS DIRETAS" data-i18n-label="label_coord">
+                <h2 class="hero-title text-2xl font-black uppercase border-b-4 border-[var(--arquivo-black)] pb-4 mb-6" data-i18n="qg_title">Quartel-General</h2>
+                <ul class="text-mono space-y-6 font-bold text-lg text-left">
+                    <li><span class="block text-[var(--cravo-red)] mb-1 text-sm" data-i18n="qg_email">FREQUÊNCIA DE RÁDIO (EMAIL)</span>contato@looptales.com</li>
+                    <li><span class="block text-[var(--cravo-red)] mb-1 text-sm" data-i18n="qg_loc">LOCALIZAÇÃO DA BASE</span><span data-i18n="qg_lisbon">Lisboa, Portugal</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="coming-soon-modal" class="fixed inset-0 z-[999999] hidden flex items-center justify-center bg-black/80 px-4 backdrop-blur-sm transition-opacity">
+        <div class="intro-card alert-card max-w-lg w-full transform scale-100 shadow-2xl relative" data-label="COMUNICADO OFICIAL" data-i18n-label="modal_label">
+            
+            <button type="button" onclick="closeModal()" class="absolute top-2 right-4 text-2xl font-bold hover:text-[var(--cravo-red)] transition-colors">&times;</button>
+
+            <div id="modal-content-wrapper">
+                <h2 class="hero-title text-3xl font-black uppercase border-b-4 border-[var(--cravo-red)] pb-4 mb-4 text-[var(--arquivo-black)] mt-2" data-i18n="modal_title">Em Breve</h2>
+                <p class="text-base font-bold mb-6 text-[var(--arquivo-black)]" data-i18n="modal_text">A revolução está a ser preparada nos bastidores. Mantém-te atento e prepara-te para te juntares aos Capitães de Abril.</p>
+                
+                <form id="ajax-modal-form" action="https://formsubmit.co/ajax/contato@looptales.com" method="POST" class="w-full flex flex-col gap-4">
+                    <input type="text" name="_honey" style="display:none">
+
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="Novo subscritor - Projeto Cravo (Em Breve)">
+                    <input type="hidden" name="Idioma_da_Pagina" class="current-lang-input" value="PT">
+                    
+                    <div>
+                        <label class="block font-mono font-bold mb-2 text-sm" data-i18n="modal_email_label">CANAL SEGURO (EMAIL)</label>
+                        <input type="email" name="Email" class="answer-input !p-3" required placeholder="O SEU EMAIL..." data-i18n-placeholder="modal_email_pl">
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 mt-2">
+                        <button type="submit" class="btn-start cravo w-full !text-sm !min-h-[48px]" data-i18n="modal_submit" id="modal-submit-btn">Receber Ordens</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="modal-success-msg" class="hidden text-center py-6">
+                <h3 class="hero-title text-3xl font-black uppercase text-[var(--militar-green)] mb-4" data-i18n="modal_success_title">Transmissão Recebida!</h3>
+                <p class="font-bold text-lg text-[var(--arquivo-black)] mb-8" data-i18n="modal_success_desc">Fica atento ao teu canal seguro. Receberás novas ordens em breve.</p>
+                <button type="button" onclick="closeModal()" class="btn-secondary w-full" data-i18n="modal_close_btn">Fechar Canal</button>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="bg-[var(--arquivo-black)] text-[var(--lisboa-beige)] py-10 px-6 border-t-4 border-[var(--cravo-red)] text-mono opacity-95 w-full mt-auto">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left text-sm">
+            <div>
+                <p class="text-[var(--lisboa-beige)] font-bold uppercase tracking-widest mb-2 font-title text-xl" data-i18n="hero_title">Projeto Cravo</p>
+                <p class="opacity-80" data-i18n="footer_prod">Uma produção Looptales Studio</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 font-bold">
+                <a href="https://www.instagram.com/looptales_studio/" class="hover:text-[var(--cravo-red)] transition-colors">Instagram</a>
+                <button type="button" onclick="cravoPage('page-sobre')" class="hover:text-[var(--cravo-red)] transition-colors cursor-pointer" data-i18n="nav_about">Sobre Nós</button>
+                <button type="button" onclick="cravoPage('page-contactos')" class="hover:text-[var(--cravo-red)] transition-colors cursor-pointer" data-i18n="nav_contact">Contactos</button>
+            </div>
+            <div class="opacity-70">
+                <p data-i18n="footer_rights">© 2026. Todos os direitos reservados.</p>
+                <p class="text-xs mt-1" data-i18n="footer_map">Cartografia: OpenStreetMap contributors</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. DICIONÁRIO DE LÍNGUAS
+        const i18n = {
+            pt: {
+                nav_home: "Início", nav_about: "Sobre Nós", nav_contact: "Contactos",
+                hero_label: "Acesso Restrito // 1974", hero_title: "Projeto Cravo",
+                hero_desc: "Os documentos secretos de abril foram espalhados por Lisboa.<br>Siga a rota militar e reconstrua as transmissões perdidas.",
+                hero_btn_inst: "Instruções da Operação", hero_btn_start: "Iniciar Missão Agora",
+                label_dossier: "DOSSIÊ 01", label_info: "INFORMAÇÃO CLASSIFICADA", label_step1: "PASSO 01",
+                label_step2: "PASSO 02", label_step3: "PASSO 03", label_alert: "ALERTA DE SISTEMA",
+                label_archive: "ARQUIVO: LOOPTALES", label_photo: "ANEXO FOTOGRÁFICO",
+                label_comm: "CANAL DE COMUNICAÇÃO", label_coord: "COORDENADAS DIRETAS",
+                city_title: "A Cidade como Narrativa", city_p1: "O <strong>Projeto Cravo</strong> não é apenas uma aula de história. É uma experiência imersiva de geolocalização (GPS) que transforma as ruas de Lisboa no cenário principal da Revolução dos Cravos.", city_p2: "Encarne um operacional. Caminhe até às coordenadas marcadas no mapa, desbloqueie arquivos confidenciais em áudio e vídeo e resolva os enigmas da madrugada que devolveu a liberdade a Portugal.",
+                city_l1: "✓ <strong>Duração:</strong> Aprox. 90 minutos", city_l2: "✓ <strong>Partida:</strong> Terreiro do Paço", city_l3: "✓ <strong>Requisitos:</strong> Telemóvel, GPS e Auscultadores",
+                proto_title: "Protocolo de Infiltração", proto_1_title: "1. Navegação", proto_1_desc: "Abra a aplicação no seu telemóvel. O radar GPS irá revelar um alvo tático de cada vez no mapa de Lisboa. Caminhe fisicamente em direção às coordenadas indicadas.",
+                proto_2_title: "2. Infiltração", proto_2_desc: "Ao atingir o perímetro do local histórico (ex: Largo do Carmo), o seu dispositivo irá intercetar uma transmissão automática com áudios e vídeos da época.",
+                proto_3_title: "3. Descodificação", proto_3_desc: "Analise o documento revelado, observe o que está ao seu redor na rua e introduza a senha correta para desbloquear as coordenadas do próximo alvo.",
+                cta_title: "Pronto para a Missão?", cta_desc: "<strong class=\"text-mono\">Atenção:</strong> Esta experiência foi concebida para o terreno. Pegue no seu telemóvel com bateria, vá para as ruas de Lisboa e inicie o sistema de comunicações.", cta_btn: "Iniciar Operação ",
+                about_title: "Sobre Nós", about_m_title: "A Missão", about_p1: "A <strong>LoopTales Studio</strong> nasce do desejo de contar histórias que ligam passado, presente e futuro através da tecnologia e da criatividade.", 
+                about_p2: "Dentro desse espírito surge o <em>Projeto Cravo</em>, uma iniciativa que transforma a memória da Revolução de 25 de Abril de 1974 numa experiência viva, convidando novas gerações a redescobrir o espírito de liberdade que marcou a história de Portugal.",
+                contact_title: "Contactos", contact_s_title: "Estabelecer Ligação", contact_desc: "Tem dúvidas sobre a operação? Preencha as informações abaixo.",
+                form_name: "IDENTIFICAÇÃO (NOME)", form_name_pl: "O SEU NOME...", form_email: "FREQUÊNCIA (EMAIL)", form_email_pl: "O SEU EMAIL...", form_msg: "MENSAGEM A TRANSMITIR", form_msg_pl: "A SUA MENSAGEM...", form_btn: "ENVIAR TRANSMISSÃO",
+                qg_title: "Quartel-General", qg_email: "FREQUÊNCIA DE RÁDIO (EMAIL)", qg_loc: "LOCALIZAÇÃO DA BASE", qg_lisbon: "Lisboa, Portugal", footer_prod: "Uma produção Looptales Studio", footer_rights: "© 1974 - 2026. Todos os direitos reservados.", footer_map: "Cartografia: OpenStreetMap contributors",
+                modal_label: "COMUNICADO OFICIAL", modal_title: "Em Breve", modal_text: "A revolução está a ser preparada nos bastidores. Mantém-te atento e prepara-te para te juntares aos Capitães de Abril.",
+                modal_email_label: "CANAL SEGURO (EMAIL)", modal_email_pl: "O SEU EMAIL...", modal_submit: "RECEBER ORDENS",
+                btn_loading: "A TRANSMITIR...",
+                contact_success_title: "Ligação Estabelecida", contact_success_desc: "A nossa equipa intercetou a tua mensagem. Aguarda resposta do Quartel-General.",
+                modal_success_title: "Transmissão Recebida!", modal_success_desc: "Fica atento ao teu canal seguro. Receberás novas ordens em breve.", modal_close_btn: "Fechar Canal"
+            },
+            en: {
+                nav_home: "Home", nav_about: "About Us", nav_contact: "Contacts",
+                hero_label: "Restricted Access // 1974", hero_title: "Carnation Project",
+                hero_desc: "The secret documents of April were scattered across Lisbon.<br>Follow the military route and rebuild the lost transmissions.",
+                hero_btn_inst: "Operation Instructions", hero_btn_start: "Start Mission Now",
+                label_dossier: "DOSSIER 01", label_info: "CLASSIFIED INFO", label_step1: "STEP 01",
+                label_step2: "STEP 02", label_step3: "STEP 03", label_alert: "SYSTEM ALERT",
+                label_archive: "ARCHIVE: LOOPTALES", label_photo: "PHOTOGRAPHIC ANNEX",
+                label_comm: "COMMUNICATION CHANNEL", label_coord: "DIRECT COORDINATES",
+                city_title: "The City as Narrative", city_p1: "The <strong>Carnation Project</strong> is not just a history lesson. It's an immersive GPS experience that turns the streets of Lisbon into the main stage of the Carnation Revolution.", city_p2: "Step into the shoes of an operative. Walk to the coordinates marked on the map, unlock confidential audio and video archives, and solve the riddles of the dawn that brought freedom back to Portugal.",
+                city_l1: "✓ <strong>Duration:</strong> Approx. 90 minutes", city_l2: "✓ <strong>Start:</strong> Terreiro do Paço", city_l3: "✓ <strong>Requirements:</strong> Mobile Phone, GPS & Headphones",
+                proto_title: "Infiltration Protocol", proto_1_title: "1. Navigation", proto_1_desc: "Open the app on your phone. The GPS radar will reveal one tactical target at a time on the Lisbon map. Physically walk towards the indicated coordinates.",
+                proto_2_title: "2. Infiltration", proto_2_desc: "Upon reaching the perimeter of the historical site (e.g., Largo do Carmo), your device will intercept an automatic transmission with period audio and video.",
+                proto_3_title: "3. Decryption", proto_3_desc: "Analyze the revealed document, observe your surroundings on the street, and enter the correct password to unlock the coordinates for the next target.",
+                cta_title: "Ready for the Mission?", cta_desc: "<strong class=\"text-mono\">Attention:</strong> This experience is designed for the field. Grab your charged phone, head to the streets of Lisbon, and start the communications system.", cta_btn: "Start Operation ",
+                about_title: "About Us", about_m_title: "The Mission",about_p1: "<strong>LoopTales Studio</strong> is born from the desire to tell stories that connect past, present, and future through technology and creativity.", 
+about_p2: "In this spirit comes the <em>Carnation Project</em>, an initiative that transforms the memory of the April 25, 1974 Revolution into a living experience, inviting new generations to rediscover the spirit of freedom that marked Portugal's history.",
+                contact_title: "Contacts", contact_s_title: "Establish Connection", contact_desc: "Have questions about the operation? Fill in the details below.",
+                form_name: "IDENTIFICATION (NAME)", form_name_pl: "YOUR NAME...", form_email: "FREQUENCY (EMAIL)", form_email_pl: "YOUR EMAIL...", form_msg: "MESSAGE TO TRANSMIT", form_msg_pl: "YOUR MESSAGE...", form_btn: "SEND TRANSMISSION",
+                qg_title: "Headquarters", qg_email: "RADIO FREQUENCY (EMAIL)", qg_loc: "BASE LOCATION", qg_lisbon: "Lisbon, Portugal", footer_prod: "A Looptales Studio production", footer_rights: "© 1974 - 2026. All rights reserved.", footer_map: "Cartography: OpenStreetMap contributors",
+                modal_label: "OFFICIAL COMMUNIQUÉ", modal_title: "Coming Soon", modal_text: "The revolution is being prepared behind the scenes. Stay tuned and get ready to join the Captains of April.",
+                modal_email_label: "SECURE CHANNEL (EMAIL)", modal_email_pl: "YOUR EMAIL...", modal_submit: "RECEIVE ORDERS",
+                btn_loading: "TRANSMITTING...",
+                contact_success_title: "Connection Established", contact_success_desc: "Our team intercepted your message. Await reply from Headquarters.",
+                modal_success_title: "Transmission Received!", modal_success_desc: "Keep an eye on your secure channel. You will receive new orders soon.", modal_close_btn: "Close Channel"
+            }
+        };
+
+        // 2. VARIÁVEIS DO SISTEMA
+        let currentLang = 'pt';
+        
+        // Registo de tempo para o sistema Anti-Bot
+        const pageLoadTime = Date.now();
+
+        // 3. FUNÇÕES GLOBAIS (Declaradas diretamente para o navegador nunca as perder)
+        function cravoLang(lang) {
+            currentLang = lang;
+            
+            // Troca o botão ativo
+            const btns = document.querySelectorAll('.lang-btn');
+            for(let i=0; i < btns.length; i++) {
+                if(btns[i].dataset.lang === lang) {
+                    btns[i].classList.add('active');
+                } else {
+                    btns[i].classList.remove('active');
+                }
+            }
+            
+            // Troca o texto do site
+            const elements = document.querySelectorAll('[data-i18n]');
+            for(let i=0; i < elements.length; i++) {
+                const key = elements[i].getAttribute('data-i18n');
+                if(i18n[lang] && i18n[lang][key]) elements[i].innerHTML = i18n[lang][key];
+            }
+            
+            // Troca os placeholders (Inputs)
+            const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
+            for(let i=0; i < placeholders.length; i++) {
+                const key = placeholders[i].getAttribute('data-i18n-placeholder');
+                if(i18n[lang] && i18n[lang][key]) placeholders[i].placeholder = i18n[lang][key];
+            }
+            
+            // Troca os Labels vermelhos dos cartões
+            const labels = document.querySelectorAll('[data-i18n-label]');
+            for(let i=0; i < labels.length; i++) {
+                const key = labels[i].getAttribute('data-i18n-label');
+                if(i18n[lang] && i18n[lang][key]) labels[i].setAttribute('data-label', i18n[lang][key]);
+            }
+            
+            // Atualiza o Formulário
+            const inputs = document.querySelectorAll('.current-lang-input');
+            for(let i=0; i < inputs.length; i++) {
+                inputs[i].value = lang.toUpperCase(); 
+            }
+        }
+
+        function cravoPage(pageId) {
+            const pages = document.getElementsByClassName('page-content');
+            for (let i = 0; i < pages.length; i++) {
+                pages[i].style.setProperty('display', 'none', 'important');
+                pages[i].classList.remove('active-page');
+            }
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.style.setProperty('display', 'block', 'important');
+                target.classList.add('active-page');
+            }
+            
+            const mobMenu = document.getElementById('mobile-menu');
+            if(mobMenu) mobMenu.style.setProperty('display', 'none', 'important');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openModal() {
+            const modal = document.getElementById('coming-soon-modal');
+            if(modal) {
+                modal.classList.remove('hidden');
+                
+                const form = document.getElementById('ajax-modal-form');
+                if(form) form.reset();
+                
+                const wrapper = document.getElementById('modal-content-wrapper');
+                if(wrapper) wrapper.classList.remove('hidden');
+                
+                const successMsg = document.getElementById('modal-success-msg');
+                if(successMsg) successMsg.classList.add('hidden');
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('coming-soon-modal');
+            if(modal) modal.classList.add('hidden');
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if(menu) {
+                if(menu.style.display === 'block') {
+                    menu.style.setProperty('display', 'none', 'important');
+                } else {
+                    menu.style.setProperty('display', 'block', 'important');
+                }
+            }
+        }
+
+        // 4. CONFIGURAÇÃO DE ENVIO DE DADOS (AJAX) - COM PROTEÇÃO ANTI-BOT
+        function configForm(formId, btnId, successId, wrapperId) {
+            const form = document.getElementById(formId);
+            if (!form) return;
+
+            form.addEventListener("submit", function(e) {
+                e.preventDefault(); // Previne recarregar a página
+                
+                // --- INÍCIO DA PROTEÇÃO ANTI-BOT ---
+                const timeToFill = Date.now() - pageLoadTime;
+                if (timeToFill < 4000) { 
+                    console.log("Sinal muito rápido. Possível bot intercetado no:", formId);
+                    
+                    // Finge sucesso para enganar o bot e ele ir embora
+                    if(wrapperId) {
+                        const wrapper = document.getElementById(wrapperId);
+                        if(wrapper) wrapper.classList.add('hidden');
+                    } else {
+                        form.classList.add('hidden');
+                    }
+                    const success = document.getElementById(successId);
+                    if(success) success.classList.remove('hidden');
+                    
+                    form.reset();
+                    return; // Bloqueia o envio real para o FormSubmit
+                }
+                // --- FIM DA PROTEÇÃO ANTI-BOT ---
+
+                const btn = document.getElementById(btnId);
+                const textoOriginal = btn.innerHTML;
+                
+                btn.innerHTML = i18n[currentLang]['btn_loading'];
+                btn.disabled = true;
+
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                })
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    if(wrapperId) {
+                        const wrapper = document.getElementById(wrapperId);
+                        if(wrapper) wrapper.classList.add('hidden');
+                    } else {
+                        form.classList.add('hidden');
+                    }
+                    const success = document.getElementById(successId);
+                    if(success) success.classList.remove('hidden');
+                    form.reset();
+                })
+                .catch(function(error) {
+                    console.error(error);
+                    alert(currentLang === 'pt' ? "Erro de comunicação. Tente novamente." : "Communication error. Try again.");
+                    btn.innerHTML = textoOriginal;
+                    btn.disabled = false;
+                });
+            });
+        }
+
+        // 5. INICIA O SISTEMA ASSIM QUE A PÁGINA ABRIR
+        // Nota: Assegura que arranca a Home Page logo à cabeça!
+        cravoPage('page-home');
+        
+        // E liga os formulários assim que tudo estiver desenhado
+        document.addEventListener('DOMContentLoaded', function() {
+            configForm('ajax-contact-form', 'contact-submit-btn', 'contact-success-msg', null);
+            configForm('ajax-modal-form', 'modal-submit-btn', 'modal-success-msg', 'modal-content-wrapper');
+        });
+    </script>
+</body>
+</html>
