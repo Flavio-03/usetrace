@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
         content:
           "Trace é uma plataforma de narrativas interativas geolocalizadas. Caminhe pela cidade e descubra histórias que acontecem onde você está.",
       },
-      { name: "theme-color", content: "#1B1B1B" },
+      { name: "theme-color", content: "#0F122A" },
       { property: "og:title", content: "Trace — Narrativas interativas geolocalizadas" },
       {
         property: "og:description",
