@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { registerPWA } from "@/lib/pwa-register";
 import traceLogo from "@/assets/trace-logo.png";
 import { LangSwitcher, useI18n } from "@/lib/i18n";
+// trace
 
 type DeferredInstallPrompt = Event & {
   prompt: () => Promise<void>;
