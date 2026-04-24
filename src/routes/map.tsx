@@ -205,8 +205,9 @@ function MapPage() {
         >
           ← Voltar
         </button>
-        <span className="rounded-md border border-soft-white/10 bg-graphite/90 px-3 py-2 font-display text-xs font-semibold uppercase tracking-[0.18em] text-soft-white backdrop-blur">
-          TR<span className="text-trace-orange">.</span>ACE · Mapa
+        <span className="flex items-center gap-2 rounded-md border border-soft-white/10 bg-graphite/90 px-3 py-2 font-display text-xs font-semibold uppercase tracking-[0.18em] text-soft-white backdrop-blur">
+          <img src={traceWordmark} alt="Trace" className="h-4 w-auto" />
+          · Mapa
         </span>
       </div>
 
