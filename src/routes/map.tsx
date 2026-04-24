@@ -164,18 +164,18 @@ function MapPage() {
   }, [geo, selected]);
 
   return (
-    <div className="fixed inset-0 bg-[#0E0E0E] text-[#F2E8CF]">
+    <div className="fixed inset-0 bg-midnight-navy text-soft-white font-sans">
       <style>{`
         .trace-user-marker { position: relative; }
         .trace-user-dot {
           width: 18px; height: 18px; border-radius: 50%;
-          background: #1a73e8; border: 3px solid #fff;
+          background: #1E88E5; border: 3px solid #F7F8FA;
           box-shadow: 0 2px 6px rgba(0,0,0,.4);
           position: absolute; top: 2px; left: 2px;
         }
         .trace-user-pulse {
           width: 22px; height: 22px; border-radius: 50%;
-          background: rgba(26, 115, 232, .35);
+          background: rgba(30, 136, 229, .35);
           animation: tracePulse 2s infinite;
           position: absolute; top: 0; left: 0;
         }
@@ -185,27 +185,27 @@ function MapPage() {
         }
         .trace-exp-pin {
           width: 44px; height: 54px;
-          background: #C1121F;
-          border: 3px solid #1B1B1B;
+          background: #FF6B00;
+          border: 3px solid #0F122A;
           border-radius: 50% 50% 50% 0;
           transform: rotate(-45deg);
           display: flex; align-items: center; justify-content: center;
-          box-shadow: 0 4px 12px rgba(0,0,0,.4);
+          box-shadow: 0 6px 18px rgba(255, 107, 0, .35);
           cursor: pointer;
         }
         .trace-exp-pin span { transform: rotate(45deg); font-size: 18px; }
       `}</style>
 
       {/* Top bar */}
-      <div className="absolute left-0 right-0 top-0 z-[1000] flex items-center justify-between bg-gradient-to-b from-[#0E0E0E] to-transparent px-4 py-3">
+      <div className="absolute left-0 right-0 top-0 z-[1000] flex items-center justify-between bg-gradient-to-b from-midnight-navy/95 to-transparent px-4 py-3">
         <button
           onClick={() => navigate({ to: "/" })}
-          className="rounded-md bg-[#1B1B1B]/90 px-3 py-2 font-mono text-xs uppercase tracking-widest text-[#F2E8CF] backdrop-blur"
+          className="rounded-md border border-soft-white/10 bg-graphite/90 px-3 py-2 font-display text-xs font-semibold uppercase tracking-[0.18em] text-soft-white backdrop-blur transition hover:border-trace-orange/50"
         >
           ← Voltar
         </button>
-        <span className="rounded-md bg-[#1B1B1B]/90 px-3 py-2 font-mono text-xs uppercase tracking-widest text-[#F2E8CF] backdrop-blur">
-          TRACE · Mapa
+        <span className="rounded-md border border-soft-white/10 bg-graphite/90 px-3 py-2 font-display text-xs font-semibold uppercase tracking-[0.18em] text-soft-white backdrop-blur">
+          TR<span className="text-trace-orange">.</span>ACE · Mapa
         </span>
       </div>
 
@@ -214,12 +214,12 @@ function MapPage() {
 
       {/* Geolocation states */}
       {geo.status !== "granted" && (
-        <div className="absolute inset-0 z-[1500] flex flex-col items-center justify-center bg-[#0E0E0E] px-6 text-center">
+        <div className="absolute inset-0 z-[1500] flex flex-col items-center justify-center bg-midnight-navy px-6 text-center">
           <div className="mb-6 text-6xl">📍</div>
-          <h2 className="font-serif text-3xl font-black">
+          <h2 className="font-display text-3xl font-bold tracking-tight">
             {geo.status === "denied" ? "Localização necessária" : "Ativando GPS..."}
           </h2>
-          <p className="mt-3 max-w-sm text-sm text-[#F2E8CF]/70">
+          <p className="mt-3 max-w-sm text-sm text-fog-gray">
             {geo.status === "denied"
               ? geo.message
               : "Para o Trace funcionar, precisamos saber onde você está. Aceite a permissão de localização do navegador."}
@@ -227,7 +227,7 @@ function MapPage() {
           {geo.status === "denied" && (
             <button
               onClick={() => window.location.reload()}
-              className="mt-6 rounded-md bg-[#C1121F] px-6 py-3 font-mono text-xs uppercase tracking-widest text-[#F2E8CF]"
+              className="mt-6 rounded-md bg-trace-orange px-6 py-3 font-display text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-[0_8px_24px_-8px_rgba(255,107,0,0.6)] transition hover:bg-trace-orange/90"
             >
               Tentar novamente
             </button>
@@ -238,30 +238,30 @@ function MapPage() {
       {/* Experience popup */}
       {selected && (
         <div className="absolute inset-x-0 bottom-0 z-[1200] animate-in slide-in-from-bottom">
-          <div className="mx-auto max-w-lg rounded-t-2xl border-t-4 border-[#C1121F] bg-[#1B1B1B] p-5 shadow-2xl">
+          <div className="mx-auto max-w-lg rounded-t-2xl border-t-4 border-trace-orange bg-graphite p-5 shadow-2xl">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#C1121F]">
+                <span className="font-display text-[10px] font-semibold uppercase tracking-[0.3em] text-trace-orange">
                   {selected.subtitle}
                 </span>
-                <h3 className="mt-1 font-serif text-2xl font-black text-[#F2E8CF]">
+                <h3 className="mt-1 font-display text-2xl font-bold tracking-tight text-soft-white">
                   {selected.title}
                 </h3>
               </div>
               <button
                 onClick={() => setSelected(null)}
-                className="text-2xl leading-none text-[#F2E8CF]/60 hover:text-[#F2E8CF]"
+                className="text-2xl leading-none text-soft-white/60 transition-colors hover:text-soft-white"
                 aria-label="Fechar"
               >
                 ×
               </button>
             </div>
 
-            <p className="mt-3 text-sm leading-relaxed text-[#F2E8CF]/80">
+            <p className="mt-3 text-sm leading-relaxed text-fog-gray">
               {selected.summary}
             </p>
 
-            <div className="mt-4 flex gap-4 font-mono text-[10px] uppercase tracking-widest text-[#F2E8CF]/60">
+            <div className="mt-4 flex flex-wrap gap-4 text-[10px] uppercase tracking-[0.2em] text-silver-gray">
               <span>⏱ {selected.duration}</span>
               <span>🌐 {selected.language}</span>
               {geo.status === "granted" && (
@@ -277,9 +277,9 @@ function MapPage() {
 
             <a
               href={selected.url}
-              className="mt-5 block w-full rounded-md bg-[#C1121F] px-6 py-4 text-center font-mono text-sm font-bold uppercase tracking-widest text-[#F2E8CF] shadow-[4px_4px_0_#000] transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-trace-orange px-6 py-4 text-center font-display text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_-8px_rgba(255,107,0,0.6)] transition hover:bg-trace-orange/90 active:translate-y-[1px]"
             >
-              ▶ Start
+              ▶ Começar experiência
             </a>
           </div>
         </div>
