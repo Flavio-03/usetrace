@@ -83,9 +83,12 @@ function Index() {
 
   // Hide install button if already running as PWA
   const showInstallButton = !installed && !isStandalone;
-  const showNativeInstallButton = showInstallButton && platform === "android" && !!installEvent;
-  const showPreparingInstallState = showInstallButton && platform === "android" && !installEvent;
-  const showIosInstallButton = showInstallButton && platform === "ios";
+
+  const installLabel = installEvent
+    ? "↓ Baixar App"
+    : platform === "ios"
+      ? "↓ Instalar no iPhone"
+      : "↓ Como instalar";
 
   return (
     <div className="min-h-screen bg-[#0E0E0E] text-[#F2E8CF]">
@@ -125,20 +128,12 @@ function Index() {
           >
             Entrar →
           </Link>
-          {showNativeInstallButton && (
+          {showInstallButton && (
             <button
               onClick={handleInstall}
               className="w-full rounded-md border-2 border-[#F2E8CF] bg-transparent px-8 py-4 font-mono text-sm font-bold uppercase tracking-widest text-[#F2E8CF] transition hover:bg-[#F2E8CF] hover:text-[#0E0E0E] sm:w-auto"
             >
-              ↓ Baixar App
-            </button>
-          )}
-          {showIosInstallButton && (
-            <button
-              onClick={handleInstall}
-              className="w-full rounded-md border-2 border-[#F2E8CF] bg-transparent px-8 py-4 font-mono text-sm font-bold uppercase tracking-widest text-[#F2E8CF] transition hover:bg-[#F2E8CF] hover:text-[#0E0E0E] sm:w-auto"
-            >
-              ↓ Instalar no iPhone
+              {installLabel}
             </button>
           )}
           {(installed || isStandalone) && (
@@ -151,12 +146,6 @@ function Index() {
         <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-[#F2E8CF]/40">
           Sem login · Funciona no navegador ou como app
         </p>
-
-        {showPreparingInstallState && (
-          <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-[#F2E8CF]/55">
-            Preparando instalação no Android...
-          </p>
-        )}
 
         {showIosHelp && (
           <div className="mt-6 max-w-md rounded-lg border border-[#F2E8CF]/20 bg-[#1B1B1B] p-5 text-left">
