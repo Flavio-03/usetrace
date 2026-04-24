@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MapRouteImport } from './routes/map'
 import { Route as CravoRouteImport } from './routes/cravo'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicCravoTesteRouteImport } from './routes/api.public.cravo.teste'
@@ -17,6 +18,11 @@ import { Route as ApiPublicCravoLandingRouteImport } from './routes/api.public.c
 import { Route as ApiPublicCravoExperienciaRouteImport } from './routes/api.public.cravo.experiencia'
 import { Route as ApiPublicCravoAssetsSplatRouteImport } from './routes/api.public.cravo.assets.$'
 
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CravoRoute = CravoRouteImport.update({
   id: '/cravo',
   path: '/cravo',
@@ -58,6 +64,7 @@ const ApiPublicCravoAssetsSplatRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cravo': typeof CravoRoute
+  '/map': typeof MapRoute
   '/api/public/cravo/experiencia': typeof ApiPublicCravoExperienciaRoute
   '/api/public/cravo/landing': typeof ApiPublicCravoLandingRoute
   '/api/public/cravo/manifest': typeof ApiPublicCravoManifestRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cravo': typeof CravoRoute
+  '/map': typeof MapRoute
   '/api/public/cravo/experiencia': typeof ApiPublicCravoExperienciaRoute
   '/api/public/cravo/landing': typeof ApiPublicCravoLandingRoute
   '/api/public/cravo/manifest': typeof ApiPublicCravoManifestRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cravo': typeof CravoRoute
+  '/map': typeof MapRoute
   '/api/public/cravo/experiencia': typeof ApiPublicCravoExperienciaRoute
   '/api/public/cravo/landing': typeof ApiPublicCravoLandingRoute
   '/api/public/cravo/manifest': typeof ApiPublicCravoManifestRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/cravo'
+    | '/map'
     | '/api/public/cravo/experiencia'
     | '/api/public/cravo/landing'
     | '/api/public/cravo/manifest'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/cravo'
+    | '/map'
     | '/api/public/cravo/experiencia'
     | '/api/public/cravo/landing'
     | '/api/public/cravo/manifest'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/cravo'
+    | '/map'
     | '/api/public/cravo/experiencia'
     | '/api/public/cravo/landing'
     | '/api/public/cravo/manifest'
@@ -116,6 +128,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CravoRoute: typeof CravoRoute
+  MapRoute: typeof MapRoute
   ApiPublicCravoExperienciaRoute: typeof ApiPublicCravoExperienciaRoute
   ApiPublicCravoLandingRoute: typeof ApiPublicCravoLandingRoute
   ApiPublicCravoManifestRoute: typeof ApiPublicCravoManifestRoute
@@ -125,6 +138,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cravo': {
       id: '/cravo'
       path: '/cravo'
@@ -180,6 +200,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CravoRoute: CravoRoute,
+  MapRoute: MapRoute,
   ApiPublicCravoExperienciaRoute: ApiPublicCravoExperienciaRoute,
   ApiPublicCravoLandingRoute: ApiPublicCravoLandingRoute,
   ApiPublicCravoManifestRoute: ApiPublicCravoManifestRoute,
