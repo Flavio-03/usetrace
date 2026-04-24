@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import traceWordmark from "@/assets/trace-wordmark.png";
 
 export const Route = createFileRoute("/map")({
   head: () => ({
