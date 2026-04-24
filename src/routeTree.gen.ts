@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as CravoRouteImport } from './routes/cravo'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicCravoTesteRouteImport } from './routes/api.public.cravo.teste'
 import { Route as ApiPublicCravoManifestRouteImport } from './routes/api.public.cravo.manifest'
@@ -16,6 +17,11 @@ import { Route as ApiPublicCravoLandingRouteImport } from './routes/api.public.c
 import { Route as ApiPublicCravoExperienciaRouteImport } from './routes/api.public.cravo.experiencia'
 import { Route as ApiPublicCravoAssetsSplatRouteImport } from './routes/api.public.cravo.assets.$'
 
+const CravoRoute = CravoRouteImport.update({
+  id: '/cravo',
+  path: '/cravo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -51,6 +57,7 @@ const ApiPublicCravoAssetsSplatRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cravo': typeof CravoRoute
   '/api/public/cravo/experiencia': typeof ApiPublicCravoExperienciaRoute
   '/api/public/cravo/landing': typeof ApiPublicCravoLandingRoute
   '/api/public/cravo/manifest': typeof ApiPublicCravoManifestRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cravo': typeof CravoRoute
   '/api/public/cravo/experiencia': typeof ApiPublicCravoExperienciaRoute
   '/api/public/cravo/landing': typeof ApiPublicCravoLandingRoute
   '/api/public/cravo/manifest': typeof ApiPublicCravoManifestRoute
@@ -68,6 +76,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cravo': typeof CravoRoute
   '/api/public/cravo/experiencia': typeof ApiPublicCravoExperienciaRoute
   '/api/public/cravo/landing': typeof ApiPublicCravoLandingRoute
   '/api/public/cravo/manifest': typeof ApiPublicCravoManifestRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cravo'
     | '/api/public/cravo/experiencia'
     | '/api/public/cravo/landing'
     | '/api/public/cravo/manifest'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cravo'
     | '/api/public/cravo/experiencia'
     | '/api/public/cravo/landing'
     | '/api/public/cravo/manifest'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/cravo'
     | '/api/public/cravo/experiencia'
     | '/api/public/cravo/landing'
     | '/api/public/cravo/manifest'
@@ -103,6 +115,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CravoRoute: typeof CravoRoute
   ApiPublicCravoExperienciaRoute: typeof ApiPublicCravoExperienciaRoute
   ApiPublicCravoLandingRoute: typeof ApiPublicCravoLandingRoute
   ApiPublicCravoManifestRoute: typeof ApiPublicCravoManifestRoute
@@ -112,6 +125,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/cravo': {
+      id: '/cravo'
+      path: '/cravo'
+      fullPath: '/cravo'
+      preLoaderRoute: typeof CravoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -159,6 +179,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CravoRoute: CravoRoute,
   ApiPublicCravoExperienciaRoute: ApiPublicCravoExperienciaRoute,
   ApiPublicCravoLandingRoute: ApiPublicCravoLandingRoute,
   ApiPublicCravoManifestRoute: ApiPublicCravoManifestRoute,
@@ -168,3 +189,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
