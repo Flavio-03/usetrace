@@ -7,6 +7,10 @@
     <link rel="icon" type="image/png" href="/api/public/cravo/assets/icon-192x192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/api/public/cravo/assets/icon-192x192.png">
     <meta name="theme-color" content="#1B1B1B">
+    <link rel="manifest" href="/api/public/cravo/manifest">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Projeto Cravo">
     
     <title>Projeto Cravo | Jogo Imersivo de GPS em Lisboa - 25 de Abril</title>
     <meta name="description" content="Descubra a Revolução de 25 de Abril de 1974 num jogo imersivo de GPS pelas ruas de Lisboa. Siga a rota militar, resolva enigmas e viva a história com o Projeto Cravo da Looptales Studio.">
@@ -200,6 +204,9 @@
                     <button type="button" onclick="openModal()" class="btn-start cravo w-full sm:w-auto px-8 text-center" data-i18n="hero_btn_start">
                         Iniciar Missão Agora
                     </button>
+                    <button type="button" id="btn-install-pwa" onclick="installPWA()" class="btn-secondary w-full sm:w-auto px-8 hidden" data-i18n="hero_btn_install">
+                        📱 Instalar App
+                    </button>
                 </div>
             </div>
         </header>
@@ -375,7 +382,7 @@
                 nav_home: "Início", nav_about: "Sobre Nós", nav_contact: "Contactos",
                 hero_label: "Acesso Restrito // 1974", hero_title: "Projeto Cravo",
                 hero_desc: "Os documentos secretos de abril foram espalhados por Lisboa.<br>Siga a rota militar e reconstrua as transmissões perdidas.",
-                hero_btn_inst: "Instruções da Operação", hero_btn_start: "Iniciar Missão Agora",
+                hero_btn_inst: "Instruções da Operação", hero_btn_start: "Iniciar Missão Agora", hero_btn_install: "📱 Instalar App",
                 label_dossier: "DOSSIÊ 01", label_info: "INFORMAÇÃO CLASSIFICADA", label_step1: "PASSO 01",
                 label_step2: "PASSO 02", label_step3: "PASSO 03", label_alert: "ALERTA DE SISTEMA",
                 label_archive: "ARQUIVO: LOOPTALES", label_photo: "ANEXO FOTOGRÁFICO",
@@ -401,7 +408,7 @@
                 nav_home: "Home", nav_about: "About Us", nav_contact: "Contacts",
                 hero_label: "Restricted Access // 1974", hero_title: "Carnation Project",
                 hero_desc: "The secret documents of April were scattered across Lisbon.<br>Follow the military route and rebuild the lost transmissions.",
-                hero_btn_inst: "Operation Instructions", hero_btn_start: "Start Mission Now",
+                hero_btn_inst: "Operation Instructions", hero_btn_start: "Start Mission Now", hero_btn_install: "📱 Install App",
                 label_dossier: "DOSSIER 01", label_info: "CLASSIFIED INFO", label_step1: "STEP 01",
                 label_step2: "STEP 02", label_step3: "STEP 03", label_alert: "SYSTEM ALERT",
                 label_archive: "ARCHIVE: LOOPTALES", label_photo: "PHOTOGRAPHIC ANNEX",
@@ -492,8 +499,50 @@ about_p2: "In this spirit comes the <em>Carnation Project</em>, an initiative th
         }
 
         function openModal() {
-            // Integração: abre a experiência GPS no mesmo iframe/janela
-            window.location.href = '/api/public/cravo/experiencia';
+            // MVP: abre a experiência de teste do Projeto Cravo
+            window.location.href = '/api/public/cravo/teste';
+        }
+
+        // ===== PWA Install =====
+        let deferredInstallPrompt = null;
+        window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            const btn = document.getElementById('btn-install-pwa');
+            if (btn) btn.classList.remove('hidden');
+        });
+        window.addEventListener('appinstalled', function() {
+            const btn = document.getElementById('btn-install-pwa');
+            if (btn) btn.classList.add('hidden');
+            deferredInstallPrompt = null;
+        });
+        function isIos() {
+            return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+        }
+        function installPWA() {
+            if (deferredInstallPrompt) {
+                deferredInstallPrompt.prompt();
+                deferredInstallPrompt.userChoice.finally(function() {
+                    deferredInstallPrompt = null;
+                    const btn = document.getElementById('btn-install-pwa');
+                    if (btn) btn.classList.add('hidden');
+                });
+            } else if (isIos()) {
+                alert(currentLang === 'pt'
+                    ? 'Para instalar no iPhone/iPad: toque no botão Partilhar no Safari e escolha "Adicionar ao Ecrã Principal".'
+                    : 'To install on iPhone/iPad: tap the Share button in Safari and choose "Add to Home Screen".');
+            } else {
+                alert(currentLang === 'pt'
+                    ? 'Abra esta página no navegador do seu telemóvel (Chrome no Android ou Safari no iOS) para instalar o app.'
+                    : 'Open this page in your phone browser (Chrome on Android or Safari on iOS) to install the app.');
+            }
+        }
+        // Em iOS o evento beforeinstallprompt não dispara — mostramos o botão mesmo assim.
+        if (isIos()) {
+            document.addEventListener('DOMContentLoaded', function() {
+                const btn = document.getElementById('btn-install-pwa');
+                if (btn) btn.classList.remove('hidden');
+            });
         }
 
         function closeModal() {

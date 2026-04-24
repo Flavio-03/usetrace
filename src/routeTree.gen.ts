@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicCravoTesteRouteImport } from './routes/api.public.cravo.teste'
+import { Route as ApiPublicCravoManifestRouteImport } from './routes/api.public.cravo.manifest'
 import { Route as ApiPublicCravoLandingRouteImport } from './routes/api.public.cravo.landing'
 import { Route as ApiPublicCravoExperienciaRouteImport } from './routes/api.public.cravo.experiencia'
 import { Route as ApiPublicCravoAssetsSplatRouteImport } from './routes/api.public.cravo.assets.$'
@@ -17,6 +19,16 @@ import { Route as ApiPublicCravoAssetsSplatRouteImport } from './routes/api.publ
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicCravoTesteRoute = ApiPublicCravoTesteRouteImport.update({
+  id: '/api/public/cravo/teste',
+  path: '/api/public/cravo/teste',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicCravoManifestRoute = ApiPublicCravoManifestRouteImport.update({
+  id: '/api/public/cravo/manifest',
+  path: '/api/public/cravo/manifest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicCravoLandingRoute = ApiPublicCravoLandingRouteImport.update({
@@ -41,12 +53,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/public/cravo/experiencia': typeof ApiPublicCravoExperienciaRoute
   '/api/public/cravo/landing': typeof ApiPublicCravoLandingRoute
+  '/api/public/cravo/manifest': typeof ApiPublicCravoManifestRoute
+  '/api/public/cravo/teste': typeof ApiPublicCravoTesteRoute
   '/api/public/cravo/assets/$': typeof ApiPublicCravoAssetsSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/public/cravo/experiencia': typeof ApiPublicCravoExperienciaRoute
   '/api/public/cravo/landing': typeof ApiPublicCravoLandingRoute
+  '/api/public/cravo/manifest': typeof ApiPublicCravoManifestRoute
+  '/api/public/cravo/teste': typeof ApiPublicCravoTesteRoute
   '/api/public/cravo/assets/$': typeof ApiPublicCravoAssetsSplatRoute
 }
 export interface FileRoutesById {
@@ -54,6 +70,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/api/public/cravo/experiencia': typeof ApiPublicCravoExperienciaRoute
   '/api/public/cravo/landing': typeof ApiPublicCravoLandingRoute
+  '/api/public/cravo/manifest': typeof ApiPublicCravoManifestRoute
+  '/api/public/cravo/teste': typeof ApiPublicCravoTesteRoute
   '/api/public/cravo/assets/$': typeof ApiPublicCravoAssetsSplatRoute
 }
 export interface FileRouteTypes {
@@ -62,18 +80,24 @@ export interface FileRouteTypes {
     | '/'
     | '/api/public/cravo/experiencia'
     | '/api/public/cravo/landing'
+    | '/api/public/cravo/manifest'
+    | '/api/public/cravo/teste'
     | '/api/public/cravo/assets/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/api/public/cravo/experiencia'
     | '/api/public/cravo/landing'
+    | '/api/public/cravo/manifest'
+    | '/api/public/cravo/teste'
     | '/api/public/cravo/assets/$'
   id:
     | '__root__'
     | '/'
     | '/api/public/cravo/experiencia'
     | '/api/public/cravo/landing'
+    | '/api/public/cravo/manifest'
+    | '/api/public/cravo/teste'
     | '/api/public/cravo/assets/$'
   fileRoutesById: FileRoutesById
 }
@@ -81,6 +105,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiPublicCravoExperienciaRoute: typeof ApiPublicCravoExperienciaRoute
   ApiPublicCravoLandingRoute: typeof ApiPublicCravoLandingRoute
+  ApiPublicCravoManifestRoute: typeof ApiPublicCravoManifestRoute
+  ApiPublicCravoTesteRoute: typeof ApiPublicCravoTesteRoute
   ApiPublicCravoAssetsSplatRoute: typeof ApiPublicCravoAssetsSplatRoute
 }
 
@@ -91,6 +117,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/cravo/teste': {
+      id: '/api/public/cravo/teste'
+      path: '/api/public/cravo/teste'
+      fullPath: '/api/public/cravo/teste'
+      preLoaderRoute: typeof ApiPublicCravoTesteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/cravo/manifest': {
+      id: '/api/public/cravo/manifest'
+      path: '/api/public/cravo/manifest'
+      fullPath: '/api/public/cravo/manifest'
+      preLoaderRoute: typeof ApiPublicCravoManifestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/cravo/landing': {
@@ -121,6 +161,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiPublicCravoExperienciaRoute: ApiPublicCravoExperienciaRoute,
   ApiPublicCravoLandingRoute: ApiPublicCravoLandingRoute,
+  ApiPublicCravoManifestRoute: ApiPublicCravoManifestRoute,
+  ApiPublicCravoTesteRoute: ApiPublicCravoTesteRoute,
   ApiPublicCravoAssetsSplatRoute: ApiPublicCravoAssetsSplatRoute,
 }
 export const routeTree = rootRouteImport
