@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { registerPWA } from "@/lib/pwa-register";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -21,8 +22,8 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
     ],
     links: [
-      { rel: "manifest", href: "/api/public/cravo/manifest" },
-      { rel: "apple-touch-icon", href: "/api/public/cravo/assets/icon-192x192.png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icons/icon-192x192.png" },
     ],
   }),
   component: Index,
@@ -31,14 +32,34 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [installEvent, setInstallEvent] = useState<any>(null);
   const [installed, setInstalled] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(false);
+  const [platform, setPlatform] = useState<"ios" | "android" | "desktop" | "unknown">("unknown");
+  const [showIosHelp, setShowIosHelp] = useState(false);
 
   useEffect(() => {
+    registerPWA();
+
     const handler = (e: Event) => {
       e.preventDefault();
       setInstallEvent(e);
     };
     window.addEventListener("beforeinstallprompt", handler);
     window.addEventListener("appinstalled", () => setInstalled(true));
+
+    // Detect platform
+    const ua = navigator.userAgent;
+    if (/iphone|ipad|ipod/i.test(ua)) setPlatform("ios");
+    else if (/android/i.test(ua)) setPlatform("android");
+    else setPlatform("desktop");
+
+    // Detect if already running as installed PWA
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      // @ts-expect-error iOS Safari
+      window.navigator.standalone === true;
+    setIsStandalone(standalone);
+    if (standalone) setInstalled(true);
+
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
@@ -48,19 +69,26 @@ function Index() {
       const { outcome } = await installEvent.userChoice;
       if (outcome === "accepted") setInstalled(true);
       setInstallEvent(null);
-    } else {
-      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-      if (isIOS) {
-        alert(
-          "Para instalar no iPhone:\n1. Toque no ícone de Compartilhar (□↑)\n2. Escolha 'Adicionar à Tela de Início'",
-        );
-      } else {
-        alert(
-          "Abra este site no Chrome/Edge no seu celular e use a opção 'Adicionar à tela inicial' do menu do navegador.",
-        );
-      }
+      return;
     }
+    if (platform === "ios") {
+      setShowIosHelp(true);
+      return;
+    }
+    if (platform === "android") {
+      alert(
+        "Abra o menu do Chrome (⋮) e escolha 'Instalar app' ou 'Adicionar à tela inicial'. O app abrirá em tela cheia, como um app nativo.",
+      );
+      return;
+    }
+    // Desktop fallback
+    alert(
+      "Para instalar como app no celular:\n\n1. Abra https://usetrace.lovable.app no Chrome do seu Android (ou Safari do iPhone)\n2. Toque no botão 'Baixar App'\n3. Confirme a instalação",
+    );
   };
+
+  // Hide install button if already running as PWA
+  const showInstallButton = !installed && !isStandalone;
 
   return (
     <div className="min-h-screen bg-[#0E0E0E] text-[#F2E8CF]">
@@ -100,7 +128,7 @@ function Index() {
           >
             Entrar →
           </Link>
-          {!installed && (
+          {showInstallButton && (
             <button
               onClick={handleInstall}
               className="w-full rounded-md border-2 border-[#F2E8CF] bg-transparent px-8 py-4 font-mono text-sm font-bold uppercase tracking-widest text-[#F2E8CF] transition hover:bg-[#F2E8CF] hover:text-[#0E0E0E] sm:w-auto"
@@ -108,7 +136,7 @@ function Index() {
               ↓ Baixar App
             </button>
           )}
-          {installed && (
+          {(installed || isStandalone) && (
             <span className="font-mono text-xs uppercase tracking-widest text-[#386641]">
               ✓ App instalado
             </span>
@@ -118,6 +146,31 @@ function Index() {
         <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-[#F2E8CF]/40">
           Sem login · Funciona no navegador ou como app
         </p>
+
+        {showIosHelp && (
+          <div className="mt-6 max-w-md rounded-lg border border-[#F2E8CF]/20 bg-[#1B1B1B] p-5 text-left">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="font-mono text-xs uppercase tracking-widest text-[#C1121F]">
+                Instalar no iPhone
+              </h3>
+              <button
+                onClick={() => setShowIosHelp(false)}
+                className="text-[#F2E8CF]/60 hover:text-[#F2E8CF]"
+                aria-label="Fechar"
+              >
+                ✕
+              </button>
+            </div>
+            <ol className="mt-3 space-y-2 text-sm text-[#F2E8CF]/80">
+              <li>1. Toque no ícone de <strong>Compartilhar</strong> (□↑) na barra do Safari</li>
+              <li>2. Role e escolha <strong>"Adicionar à Tela de Início"</strong></li>
+              <li>3. Toque em <strong>"Adicionar"</strong> no canto superior direito</li>
+            </ol>
+            <p className="mt-3 font-mono text-[10px] text-[#F2E8CF]/50">
+              O Trace abrirá em tela cheia, como um app nativo.
+            </p>
+          </div>
+        )}
 
         <section className="mt-24 grid w-full gap-6 text-left md:grid-cols-3">
           {[
