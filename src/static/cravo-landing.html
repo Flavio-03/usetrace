@@ -492,19 +492,8 @@ about_p2: "In this spirit comes the <em>Carnation Project</em>, an initiative th
         }
 
         function openModal() {
-            const modal = document.getElementById('coming-soon-modal');
-            if(modal) {
-                modal.classList.remove('hidden');
-                
-                const form = document.getElementById('ajax-modal-form');
-                if(form) form.reset();
-                
-                const wrapper = document.getElementById('modal-content-wrapper');
-                if(wrapper) wrapper.classList.remove('hidden');
-                
-                const successMsg = document.getElementById('modal-success-msg');
-                if(successMsg) successMsg.classList.add('hidden');
-            }
+            // Integração: abre a experiência GPS no mesmo iframe/janela
+            window.location.href = '/api/public/cravo/experiencia';
         }
 
         function closeModal() {

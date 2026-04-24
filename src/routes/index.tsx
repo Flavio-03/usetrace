@@ -13,14 +13,14 @@ function Index() {
         </span>
         <div className="flex gap-2">
           <a
-            href="/cravo/index.html"
+            href="/api/public/cravo/landing"
             target="cravo-frame"
             className="rounded border border-[#F2E8CF]/40 px-3 py-1 hover:bg-[#C1121F]"
           >
             Landing
           </a>
           <a
-            href="/cravo/experiencia.html"
+            href="/api/public/cravo/experiencia"
             target="cravo-frame"
             className="rounded border border-[#F2E8CF]/40 px-3 py-1 hover:bg-[#C1121F]"
           >
@@ -30,7 +30,7 @@ function Index() {
       </div>
       <iframe
         name="cravo-frame"
-        src="/cravo/index.html"
+        src="/api/public/cravo/landing"
         title="Projeto Cravo"
         className="h-[calc(100vh-40px)] w-full border-0"
       />
