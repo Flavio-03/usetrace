@@ -39,6 +39,9 @@ function Index() {
   const [installed, setInstalled] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [platform, setPlatform] = useState<"ios" | "android" | "desktop" | "unknown">("unknown");
+  const [browser, setBrowser] = useState<
+    "chrome" | "edge" | "firefox" | "safari" | "opera" | "samsung" | "other"
+  >("other");
   const [showHelp, setShowHelp] = useState(false);
 
   useEffect(() => {
@@ -56,6 +59,15 @@ function Index() {
     if (/iphone|ipad|ipod/i.test(ua)) setPlatform("ios");
     else if (/android/i.test(ua)) setPlatform("android");
     else setPlatform("desktop");
+
+    // Detect browser (order matters)
+    if (/OPR\/|Opera|OPT\//i.test(ua)) setBrowser("opera");
+    else if (/SamsungBrowser/i.test(ua)) setBrowser("samsung");
+    else if (/Edg\//i.test(ua)) setBrowser("edge");
+    else if (/Firefox|FxiOS/i.test(ua)) setBrowser("firefox");
+    else if (/Chrome|CriOS/i.test(ua)) setBrowser("chrome");
+    else if (/Safari/i.test(ua)) setBrowser("safari");
+    else setBrowser("other");
 
     // Detect if already running as installed PWA
     const standalone =
