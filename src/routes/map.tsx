@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import traceWordmark from "@/assets/trace-wordmark.png";
+import { LangSwitcher, useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/map")({
   head: () => ({
@@ -57,6 +57,7 @@ type GeoState =
 
 function MapPage() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const mapEl = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
   const userMarkerRef = useRef<any>(null);
@@ -203,12 +204,17 @@ function MapPage() {
           onClick={() => navigate({ to: "/" })}
           className="rounded-md border border-soft-white/10 bg-graphite/90 px-3 py-2 font-display text-xs font-semibold uppercase tracking-[0.18em] text-soft-white backdrop-blur transition hover:border-trace-orange/50"
         >
-          ← Voltar
+          {t("map.back")}
         </button>
-        <span className="flex items-center gap-2 rounded-md border border-soft-white/10 bg-graphite/90 px-3 py-2 font-display text-xs font-semibold uppercase tracking-[0.18em] text-soft-white backdrop-blur">
-          <img src={traceWordmark} alt="Trace" className="h-4 w-auto" />
-          · Mapa
-        </span>
+        <div className="flex items-center gap-2">
+          <LangSwitcher />
+          <span
+            className="flex h-10 w-10 items-center justify-center rounded-md border border-soft-white/10 bg-graphite/90 backdrop-blur"
+            aria-label="Trace"
+          >
+            <img src="/favicon.png" alt="Trace" className="h-7 w-7" />
+          </span>
+        </div>
       </div>
 
       {/* Map area */}
@@ -219,7 +225,7 @@ function MapPage() {
         <div className="absolute inset-0 z-[1500] flex flex-col items-center justify-center bg-midnight-navy px-6 text-center">
           <div className="mb-6 text-6xl">📍</div>
           <h2 className="font-display text-3xl font-bold tracking-tight">
-            {geo.status === "denied" ? "Localização necessária" : "Ativando GPS..."}
+            {geo.status === "denied" ? t("map.denied") : t("map.locating")}
           </h2>
           <p className="mt-3 max-w-sm text-sm text-fog-gray">
             {geo.status === "denied"
@@ -231,7 +237,7 @@ function MapPage() {
               onClick={() => window.location.reload()}
               className="mt-6 rounded-md bg-trace-orange px-6 py-3 font-display text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-[0_8px_24px_-8px_rgba(255,107,0,0.6)] transition hover:bg-trace-orange/90"
             >
-              Tentar novamente
+              {t("map.retry")}
             </button>
           )}
         </div>
@@ -281,7 +287,7 @@ function MapPage() {
               href={selected.url}
               className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-trace-orange px-6 py-4 text-center font-display text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_-8px_rgba(255,107,0,0.6)] transition hover:bg-trace-orange/90 active:translate-y-[1px]"
             >
-              ▶ Começar experiência
+              {t("map.start")}
             </a>
           </div>
         </div>
