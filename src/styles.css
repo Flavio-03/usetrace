@@ -2,6 +2,9 @@
 @source "../src";
 @import "tw-animate-css";
 
+/* TRACE Design System fonts */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
 @custom-variant dark (&:is(.dark *));
 
 /*
@@ -19,6 +22,20 @@
  */
 
 @theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+
+  --color-trace-blue: var(--trace-blue);
+  --color-urban-cyan: var(--urban-cyan);
+  --color-trace-orange: var(--trace-orange);
+  --color-soft-white: var(--soft-white);
+  --color-fog-gray: var(--fog-gray);
+  --color-silver-gray: var(--silver-gray);
+  --color-midnight-navy: var(--midnight-navy);
+  --color-graphite: var(--graphite);
+  --color-slate-gray: var(--slate-gray);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -63,6 +80,18 @@
 
 :root {
   --radius: 0.625rem;
+
+  /* TRACE brand palette */
+  --trace-blue: #1E88E5;
+  --urban-cyan: #36C2D9;
+  --trace-orange: #FF6B00;
+  --soft-white: #F7F8FA;
+  --fog-gray: #D9DDE3;
+  --silver-gray: #B7BDC6;
+  --midnight-navy: #0F122A;
+  --graphite: #1F2937;
+  --slate-gray: #334155;
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
